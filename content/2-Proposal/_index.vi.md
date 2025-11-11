@@ -1,108 +1,119 @@
 ---
 title: "Bản đề xuất"
-date: 2025-11-11
+date: "2025-09-09T19:53:52+07:00"
 weight: 2
 chapter: false
 pre: " <b> 2. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-Tại phần này, bạn cần tóm tắt các nội dung trong workshop mà bạn **dự tính** sẽ làm.
-
-# IoT Weather Platform for Lab Research  
-## Giải pháp AWS Serverless hợp nhất cho giám sát thời tiết thời gian thực  
+# Aurora Time  
+## Giải pháp AWS Serverless hợp nhất cho quản lý thời gian cá nhân  
 
 ### 1. Tóm tắt điều hành  
-IoT Weather Platform được thiết kế dành cho nhóm *ITea Lab* tại TP. Hồ Chí Minh nhằm nâng cao khả năng thu thập và phân tích dữ liệu thời tiết. Nền tảng hỗ trợ tối đa 5 trạm thời tiết, có khả năng mở rộng lên 10–15 trạm, sử dụng thiết bị biên Raspberry Pi kết hợp cảm biến ESP32 để truyền dữ liệu qua MQTT. Nền tảng tận dụng các dịch vụ AWS Serverless để cung cấp giám sát thời gian thực, phân tích dự đoán và tiết kiệm chi phí, với quyền truy cập giới hạn cho 5 thành viên phòng lab thông qua Amazon Cognito.  
+Bản đề xuất này trình bày kế hoạch triển khai Aurora Time, một ứng dụng quản lý thời gian trên nền tảng AWS, đơn giản, tập trung vào tính năng lập lịch, nhằm giải quyết sự phức tạp và chi phí vận hành của các giải pháp hiện tại. Aurora Time sẽ tận dụng các dịch vụ serverless và managed service của AWS để đảm bảo khả năng mở rộng cao, độ tin cậy và chi phí tối ưu, mang lại lợi tức đầu tư (ROI) nhanh chóng thông qua giảm thiểu chi phí quản lý hạ tầng.  
 
 ### 2. Tuyên bố vấn đề  
-*Vấn đề hiện tại*  
-Các trạm thời tiết hiện tại yêu cầu thu thập dữ liệu thủ công, khó quản lý khi có nhiều trạm. Không có hệ thống tập trung cho dữ liệu hoặc phân tích thời gian thực, và các nền tảng bên thứ ba thường tốn kém và quá phức tạp.  
+#### *Vấn đề hiện tại*  
+Cá nhân gặp khó khăn trong việc quản lý các cam kết hàng ngày vì lịch trình bị phân tán (ghi chú, điện thoại) dẫn đến dễ bị nhầm lẫn và bỏ sót. Các công cụ hiện tại thường quá phức tạp, nặng về tính năng công việc, không phù hợp cho nhu cầu lập lịch nhanh chóng và đơn giản của cuộc sống cá nhân. Aurora Time giải quyết bằng cách cung cấp một nền tảng tập trung hóa, tối giản và trực quan để dễ dàng theo dõi thói quen và các mốc quan trọng.  
 
-*Giải pháp*  
-Nền tảng sử dụng AWS IoT Core để tiếp nhận dữ liệu MQTT, AWS Lambda và API Gateway để xử lý, Amazon S3 để lưu trữ (bao gồm data lake), và AWS Glue Crawlers cùng các tác vụ ETL để trích xuất, chuyển đổi, tải dữ liệu từ S3 data lake sang một S3 bucket khác để phân tích. AWS Amplify với Next.js cung cấp giao diện web, và Amazon Cognito đảm bảo quyền truy cập an toàn. Tương tự như Thingsboard và CoreIoT, người dùng có thể đăng ký thiết bị mới và quản lý kết nối, nhưng nền tảng này hoạt động ở quy mô nhỏ hơn và phục vụ mục đích sử dụng nội bộ. Các tính năng chính bao gồm bảng điều khiển thời gian thực, phân tích xu hướng và chi phí vận hành thấp.  
+#### *Giải pháp*  
+Nền tảng sử dụng Amazon S3 kết hợp với Amazon CloudFront để lưu trữ và phân phối ứng dụng web, sử dụng AWS Amplify để phát triển và triển khai nhanh chóng. Amazon API Gateway và AWS Lambda hoạt động như lớp xử lý Backend để xử lý các yêu cầu CRUD sự kiện. Dữ liệu được lưu trữ trong Amazon DynamoDB để đảm bảo tốc độ truy cập nhanh, độ trễ thấp. Amazon Cognito đảm bảo xác thực và ủy quyền truy cập an toàn cho từng người dùng cá nhân. Amazon EventBridge và Amazon SES được sử dụng để kích hoạt và gửi các thông báo nhắc nhở theo lịch. Tương tự như các ứng dụng lịch khác, người dùng có thể tạo, chỉnh sửa lịch trình cá nhân, nhưng nền tảng này hoạt động ở quy mô tối giản hơn và phục vụ mục đích quản lý thời gian cá nhân hàng ngày. Các tính năng chính bao gồm giao diện lập lịch trực quan, nhắc nhở tùy chỉnh và chi phí vận hành thấp.  
 
-*Lợi ích và hoàn vốn đầu tư (ROI)*  
-Giải pháp tạo nền tảng cơ bản để các thành viên phòng lab phát triển một nền tảng IoT lớn hơn, đồng thời cung cấp nguồn dữ liệu cho những người nghiên cứu AI phục vụ huấn luyện mô hình hoặc phân tích. Nền tảng giảm bớt báo cáo thủ công cho từng trạm thông qua hệ thống tập trung, đơn giản hóa quản lý và bảo trì, đồng thời cải thiện độ tin cậy dữ liệu. Chi phí hàng tháng ước tính 0,66 USD (theo AWS Pricing Calculator), tổng cộng 7,92 USD cho 12 tháng. Tất cả thiết bị IoT đã được trang bị từ hệ thống trạm thời tiết hiện tại, không phát sinh chi phí phát triển thêm. Thời gian hoàn vốn 6–12 tháng nhờ tiết kiệm đáng kể thời gian thao tác thủ công.  
+#### *Lợi ích và hoàn vốn đầu tư (ROI)*  
+Giải pháp Aurora Time tạo nền tảng vững chắc để người dùng cá nhân tập trung hóa mọi lịch trình, đồng thời cung cấp một mô hình kiến trúc Serverless tiết kiệm chi phí để dễ dàng mở rộng tính năng. Nền tảng này giảm bớt sự phân tán lịch trình và giảm thiểu việc bỏ sót các cam kết quan trọng thông qua hệ thống nhắc nhở tập trung, đơn giản hóa quản lý thời gian cá nhân và cải thiện sự cân bằng giữa công việc/cuộc sống.
+
+Chi phí hạ tầng hàng tháng ước tính $16 - $50 USD, tổng cộng khoảng $192 - $600 USD cho 12 tháng (tùy thuộc vào lượng người dùng và request). Tất cả các thành phần phát triển đều dựa trên Serverless, không phát sinh chi phí mua sắm phần cứng hoặc thuê máy chủ ảo 24/7. Thời gian hoàn vốn được ước tính dưới 6 tháng nhờ tiết kiệm đáng kể thời gian tìm kiếm, sắp xếp lịch trình thủ công, và chi phí vận hành cực thấp của kiến trúc AWS Serverless.  
 
 ### 3. Kiến trúc giải pháp  
-Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu từ 5 trạm dựa trên Raspberry Pi, có thể mở rộng lên 15 trạm. Dữ liệu được tiếp nhận qua AWS IoT Core, lưu trữ trong S3 data lake và xử lý bởi AWS Glue Crawlers và ETL jobs để chuyển đổi và tải vào một S3 bucket khác cho mục đích phân tích. Lambda và API Gateway xử lý bổ sung, trong khi Amplify với Next.js cung cấp bảng điều khiển được bảo mật bởi Cognito.  
+Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu lịch trình và sự kiện cá nhân, có khả năng dễ dàng mở rộng từ một người dùng lên hàng triệu người dùng cá nhân. Các yêu cầu API được tiếp nhận qua Amazon API Gateway và xử lý bởi AWS Lambda, trong khi dữ liệu được lưu trữ trong Amazon DynamoDB để đảm bảo tốc độ truy vấn nhanh chóng, độ trễ thấp. Amazon EventBridge xử lý logic nhắc nhở theo lịch, kích hoạt Lambda và gửi thông báo. AWS Amplify cung cấp giao diện web/di động trực quan, được bảo mật bởi Amazon Cognito để quản lý quyền truy cập an toàn cho từng người dùng.    
 
-![IoT Weather Station Architecture](/images/2-Proposal/edge_architecture.jpeg)
+![Aurora Time Platform Architecture](static\images\2-Proposal\platform_architecture.jpg)
 
-![IoT Weather Platform Architecture](/images/2-Proposal/platform_architecture.jpeg)
+#### *Dịch vụ AWS sử dụng*  
+- *AWS Lambda*: Xử lý logic nghiệp vụ cho các thao tác CRUD sự kiện và kích hoạt các tác vụ nhắc nhở theo lịch.  
+- *Amazon API Gateway*: Cung cấp giao diện RESTful API an toàn để giao tiếp với ứng dụng web.  
+- *Amazon DynamoDB*: Lưu trữ dữ liệu sự kiện, lịch trình và thông tin người dùng.  
+- *Amazon S3 và CloudFront*: Lưu trữ và phân phối nội dung tĩnh của ứng dụng Frontend. 
+- *Amazon EventBride*: Lên lịch và kích hoạt các sự kiện nhắc nhở tự động theo thời gian đã định của người dùng.  
+- *Amazon SES*: Gửi thông báo nhắc nhở tùy chỉnh qua email (SES).
+- *AWS Amplify*: Lưu trữ và cung cấp giao diện web trực quan.
+- *Amazon Cognito*: Quản lý quyền truy cập và xác thực an toàn cho người dùng cá nhân. 
 
-*Dịch vụ AWS sử dụng*  
-- *AWS IoT Core*: Tiếp nhận dữ liệu MQTT từ 5 trạm, mở rộng lên 15.  
-- *AWS Lambda*: Xử lý dữ liệu và kích hoạt Glue jobs (2 hàm).  
-- *Amazon API Gateway*: Giao tiếp với ứng dụng web.  
-- *Amazon S3*: Lưu trữ dữ liệu thô (data lake) và dữ liệu đã xử lý (2 bucket).  
-- *AWS Glue*: Crawlers lập chỉ mục dữ liệu, ETL jobs chuyển đổi và tải dữ liệu.  
-- *AWS Amplify*: Lưu trữ giao diện web Next.js.  
-- *Amazon Cognito*: Quản lý quyền truy cập cho người dùng phòng lab.  
-
-*Thiết kế thành phần*  
-- *Thiết bị biên*: Raspberry Pi thu thập và lọc dữ liệu cảm biến, gửi tới IoT Core.  
-- *Tiếp nhận dữ liệu*: AWS IoT Core nhận tin nhắn MQTT từ thiết bị biên.  
-- *Lưu trữ dữ liệu*: Dữ liệu thô lưu trong S3 data lake; dữ liệu đã xử lý lưu ở một S3 bucket khác.  
-- *Xử lý dữ liệu*: AWS Glue Crawlers lập chỉ mục dữ liệu; ETL jobs chuyển đổi để phân tích.  
-- *Giao diện web*: AWS Amplify lưu trữ ứng dụng Next.js cho bảng điều khiển và phân tích thời gian thực.  
-- *Quản lý người dùng*: Amazon Cognito giới hạn 5 tài khoản hoạt động.  
+#### *Thiết kế thành phần*  
+- *Giao diện người dùng*: AWS Amplify lưu trữ ứng dụng web (dự kiến sử dụng React) cung cấp giao diện lập lịch trực quan, xem lịch và đặt nhắc nhở.  
+- *Xác thực Người dùng*: Amazon Cognito quản lý các tài khoản người dùng cá nhân, cấp token ủy quyền an toàn cho việc truy cập API Backend.  
+- *Tiếp nhận Yêu cầu API*: Amazon API Gateway nhận và định tuyến các yêu cầu đã được xác thực (ví dụ: tạo sự kiện, truy vấn lịch) tới các hàm Lambda tương ứng. 
+- *Xử lý Logic Backend*: AWS Lambda xử lý và thực thi logic nghiệp vụ. Đồng thời, các hàm Lambda khác được kích hoạt bởi EventBridge để gửi nhắc nhở. 
+- *Lưu trữ dữ liệu*: Amazon DynamoDB lưu trữ dữ liệu chính (Lịch, Sự kiện, Thông tin người dùng) dưới dạng NoSQL, đảm bảo truy cập nhanh và linh hoạt.  
+- *Lên lịch Nhắc nhở*: Amazon EventBridge lập lịch và kích hoạt các sự kiện theo thời gian đã định của người dùng, đảm bảo tính năng nhắc nhở hoạt động tự động.  
 
 ### 4. Triển khai kỹ thuật  
 *Các giai đoạn triển khai*  
-Dự án gồm 2 phần — thiết lập trạm thời tiết biên và xây dựng nền tảng thời tiết — mỗi phần trải qua 4 giai đoạn:  
-1. *Nghiên cứu và vẽ kiến trúc*: Nghiên cứu Raspberry Pi với cảm biến ESP32 và thiết kế kiến trúc AWS Serverless (1 tháng trước kỳ thực tập).  
-2. *Tính toán chi phí và kiểm tra tính khả thi*: Sử dụng AWS Pricing Calculator để ước tính và điều chỉnh (Tháng 1).  
-3. *Điều chỉnh kiến trúc để tối ưu chi phí/giải pháp*: Tinh chỉnh (ví dụ tối ưu Lambda với Next.js) để đảm bảo hiệu quả (Tháng 2).  
-4. *Phát triển, kiểm thử, triển khai*: Lập trình Raspberry Pi, AWS services với CDK/SDK và ứng dụng Next.js, sau đó kiểm thử và đưa vào vận hành (Tháng 2–3).  
+Dự án gồm 2 phần — thiết lập Backend Serverless và xây dựng Giao diện người dùng (Frontend) — mỗi phần trải qua 4 giai đoạn:  
+1. *Nghiên cứu và vẽ kiến trúc*: Nghiên cứu sâu về DynamoDB Data Modeling cho lịch trình và thiết kế kiến trúc AWS Serverless đã xác nhận (API Gateway, Lambda, EventBridge). (Thời gian: Tháng thứ 1) 
+2. *Tính toán chi phí và kiểm tra tính khả thi*: Sử dụng AWS Pricing Calculator để ước tính chi phí vận hành Serverless thực tế và kiểm tra tính khả thi của luồng xác thực (Cognito) và lưu trữ (DynamoDB). (Thời gian: Tháng thứ 1)  
+3. *Điều chỉnh kiến trúc để tối ưu chi phí/giải pháp*: Tinh chỉnh các tham số Lambda (ví dụ: bộ nhớ, thời gian chờ) và DynamoDB (ví dụ: RCU/WCU) để đảm bảo hiệu quả chi phí cao nhất và hiệu năng tốt nhất cho người dùng cá nhân. (Thời gian: Tháng thứ 2)  
+4. *Phát triển, kiểm thử, triển khai*: Lập trình các hàm Lambda, thiết lập CI/CD Pipeline với CodePipeline/CodeBuild/CloudFormation, và phát triển ứng dụng Frontend (React). Sau đó kiểm thử Beta và đưa vào vận hành. (Thời gian: Tháng thứ 2-3)  
 
 *Yêu cầu kỹ thuật*  
-- *Trạm thời tiết biên*: Cảm biến (nhiệt độ, độ ẩm, lượng mưa, tốc độ gió), vi điều khiển ESP32, Raspberry Pi làm thiết bị biên. Raspberry Pi chạy Raspbian, sử dụng Docker để lọc dữ liệu và gửi 1 MB/ngày/trạm qua MQTT qua Wi-Fi.  
-- *Nền tảng thời tiết*: Kiến thức thực tế về AWS Amplify (lưu trữ Next.js), Lambda (giảm thiểu do Next.js xử lý), AWS Glue (ETL), S3 (2 bucket), IoT Core (gateway và rules), và Cognito (5 người dùng). Sử dụng AWS CDK/SDK để lập trình (ví dụ IoT Core rules tới S3). Next.js giúp giảm tải Lambda cho ứng dụng web fullstack.  
+
+*1. Yêu cầu Backend (Serverless)*
+- *Dịch vụ cốt lõi*: Kiến thức chuyên sâu về AWS Lambda (Node.js), Amazon DynamoDB, Amazon API Gateway, và Amazon Cognito. 
+- *Quản lý Sự kiện*: Nắm vững Amazon EventBridge để lên lịch và kích hoạt các hàm Lambda gửi nhắc nhở qua Amazon SES/SNS.
+
+*2. Yêu cần Frontend*
+- *Giao diện*: Kiến thức thực tế về AWS Amplify để lưu trữ ứng React và kết nối với API Gateway
+- *Tối ưu hoá*: Tận dụng khả năng xử lý của React để giảm tải cho các hàm Lambda  
 
 ### 5. Lộ trình & Mốc triển khai  
-- *Trước thực tập (Tháng 0)*: 1 tháng lên kế hoạch và đánh giá trạm cũ.  
 - *Thực tập (Tháng 1–3)*:  
     - Tháng 1: Học AWS và nâng cấp phần cứng.  
     - Tháng 2: Thiết kế và điều chỉnh kiến trúc.  
     - Tháng 3: Triển khai, kiểm thử, đưa vào sử dụng.  
 - *Sau triển khai*: Nghiên cứu thêm trong vòng 1 năm.  
 
-### 6. Ước tính ngân sách  
-Có thể xem chi phí trên [AWS Pricing Calculator](https://calculator.aws/#/estimate?id=621f38b12a1ef026842ba2ddfe46ff936ed4ab01)  
-Hoặc tải [tệp ước tính ngân sách](../attachments/budget_estimation.pdf).  
+### 6. Ước tính ngân sách   
 
-*Chi phí hạ tầng*  
-- AWS Lambda: 0,00 USD/tháng (1.000 request, 512 MB lưu trữ).  
-- S3 Standard: 0,15 USD/tháng (6 GB, 2.100 request, 1 GB quét).  
-- Truyền dữ liệu: 0,02 USD/tháng (1 GB vào, 1 GB ra).  
-- AWS Amplify: 0,35 USD/tháng (256 MB, request 500 ms).  
-- Amazon API Gateway: 0,01 USD/tháng (2.000 request).  
-- AWS Glue ETL Jobs: 0,02 USD/tháng (2 DPU).  
-- AWS Glue Crawlers: 0,07 USD/tháng (1 crawler).  
-- MQTT (IoT Core): 0,08 USD/tháng (5 thiết bị, 45.000 tin nhắn).  
+Dịch vụ AWS | Đơn vị sử dụng (ước tính) | Đơn giá & Free Tier | Chi phí/tháng (USD) |
+| :--- | :--- | :--- | :--- |
+| **AWS Amplify** | Hosting web tĩnh | $0.023/GB + $0.15/GB out | **0.35** |
+| **S3** | File tĩnh, backup | $0.023/GB | **0.05** |
+| **CloudFront** | CDN nội dung (20GB) | $0.085/GB | **1.70** |
+| **API Gateway** | 30.000 requests | $3.50/1 triệu req, 1M free | **0.11** |
+| **AWS Lambda** | 1 triệu requests | $0.21/1 triệu, 1M free | **0.00 (miễn phí)** |
+| **DynamoDB** | ~1GB dữ liệu (sự kiện) | $0/25GB, 25GB đầu miễn phí | **0.11** |
+| **Amazon Cognito** | <1000 active user | Free đến 50k user/tháng | **0.00 (miễn phí)** |
+| **Amazon SES (email)** | 500 email/tháng nhắc nhở | $0.10 / 1000 mail (3K free nếu EC2) | **0.05** |
+| **EventBridge** | 100.000 event scheduled | $1/million event | **0.10** |
+| **CloudWatch Logs** | 1GB log/tháng | $0.50/GB ingest + $0.03/GB lưu | **0.10** |
+| **CI/CD Pipeline + Build** | 20 build/run | 100 min free/tháng | **0.00 (miễn phí)** |
+| **TỔNG CỘNG** | | | **2.57 USD** |
 
-*Tổng*: 0,7 USD/tháng, 8,40 USD/12 tháng  
-- *Phần cứng*: 265 USD một lần (Raspberry Pi 5 và cảm biến).  
+---
+
+* Tổng chi phí 12 tháng là **30.84 USD***     
 
 ### 7. Đánh giá rủi ro  
 *Ma trận rủi ro*  
-- Mất mạng: Ảnh hưởng trung bình, xác suất trung bình.  
-- Hỏng cảm biến: Ảnh hưởng cao, xác suất thấp.  
-- Vượt ngân sách: Ảnh hưởng trung bình, xác suất thấp.  
+- Mất kết nối mạng/Độ trễ cao: Ảnh hưởng trung bình, xác suất trung bình.  
+- Lỗi thiết kế DynamoDB: Ảnh hưởng cao, xác suất trung bình.  
+- Chi phí Serverless vượt ngân sách: Ảnh hưởng trung bình, xác suất thấp.
+- Lỗi hệ thống nhắc nhở: Ảnh hưởng cao, xác suất thấp.
 
 *Chiến lược giảm thiểu*  
-- Mạng: Lưu trữ cục bộ trên Raspberry Pi với Docker.  
-- Cảm biến: Kiểm tra định kỳ, dự phòng linh kiện.  
-- Chi phí: Cảnh báo ngân sách AWS, tối ưu dịch vụ.  
+- Mất kết nối mạng/Độ trễ cao: Tối ưu hóa Frontend (được lưu trữ trên S3/CloudFront) để đảm bảo tốc độ tải nhanh, sử dụng Client-side Caching để người dùng vẫn có thể xem được lịch trình gần nhất khi mất mạng.  
+- Lỗi thiết kế DynamoDB: Thực hiện Proof of Concept (POC) và Load Testing nghiêm ngặt cho mô hình dữ liệu. Sử dụng Global Secondary Index (GSI) được tối ưu hóa để tránh truy vấn toàn bộ bảng và tối thiểu hóa chi phí RCU/WCU.  
+- Chi phí Serverless vượt ngân sách: Thiết lập AWS Budgets với các cảnh báo chủ động (Email/SNS) khi chi tiêu gần đạt ngưỡng. Thường xuyên kiểm tra AWS Cost Explorer và tối ưu hóa tài nguyên Lambda.
+- Lỗi hệ thống nhắc nhở: Giám sát chặt chẽ EventBridge và Lambda xử lý nhắc nhở thông qua CloudWatch Alarms để phát hiện lỗi ngay lập tức. Cài đặt cơ chế Retry Logic cho các hàm Lambda quan trọng.
 
 *Kế hoạch dự phòng*  
-- Quay lại thu thập thủ công nếu AWS gặp sự cố.  
-- Sử dụng CloudFormation để khôi phục cấu hình liên quan đến chi phí.  
+- Sự cố AWS: Do ứng dụng chỉ dành cho cá nhân, nếu AWS gặp sự cố, hệ thống sẽ được cấu hình để tự động Rollback về phiên bản code gần nhất (thông qua CodePipeline) hoặc triển khai lại cấu hình (thông qua CloudFormation).  
+- Mất Dữ liệu: Thiết lập DynamoDB Backup and Restore định kỳ để khôi phục nhanh chóng dữ liệu sự kiện trong trường hợp lỗi hệ thống hoặc lỗi người dùng.
+- Vấn đề Chi phí: Sử dụng CloudFormation để khôi phục cấu hình tài nguyên (như RCU/WCU) về trạng thái chi phí thấp đã được chứng minh.
 
 ### 8. Kết quả kỳ vọng  
-*Cải tiến kỹ thuật*: Dữ liệu và phân tích thời gian thực thay thế quy trình thủ công. Có thể mở rộng tới 10–15 trạm.  
-*Giá trị dài hạn*: Nền tảng dữ liệu 1 năm cho nghiên cứu AI, có thể tái sử dụng cho các dự án tương lai.
+*Cải tiến Trải nghiệm Người dùng*: Cung cấp giao diện lập lịch trực quan và nhắc nhở thời gian thực (Real-time notifications) thay thế cho quy trình ghi chép và theo dõi lịch trình thủ công. Hệ thống được thiết kế để dễ dàng mở rộng, phục vụ từ một người dùng lên đến hàng triệu người dùng cá nhân.  
+
+*Giá trị Dài hạn và Khả năng Tái sử dụng*: Tạo ra một nền tảng kỹ thuật Serverless vững chắc, có thể duy trì hoạt động với chi phí cực thấp trong nhiều năm. Kiến trúc này có thể được tái sử dụng cho các dự án ứng dụng cá nhân hoặc các tính năng mở rộng khác trong tương lai (ví dụ: theo dõi thói quen, quản lý công việc cá nhân đơn giản).
+
+*Hoàn thành Triển khai*: Triển khai thành công toàn bộ kiến trúc Serverless đã được phê duyệt, bao gồm CI/CD tự động và các tính năng cốt lõi của Aurora Time trong khung thời gian dự kiến.
