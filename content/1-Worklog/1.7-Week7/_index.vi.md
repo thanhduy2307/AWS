@@ -1,7 +1,7 @@
 ---
 title: "Worklog Tuần 7"
 date: 2025-11-11
-weight: 1
+weight: 7
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
