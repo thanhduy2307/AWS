@@ -1,59 +1,41 @@
 ---
 title: "Worklog Tuần 3"
-date: 2025-11-11
-weight: 1
+date: 2025-09-22
+weight: 3
 chapter: false
 pre: " <b> 1.3. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
+
 
 
 ### Mục tiêu tuần 3:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Hiểu và thực hành lưu trữ đối tượng với **Amazon S3**.
+* Nắm vững các khái niệm về cơ sở dữ liệu quan hệ (Relational Database) trên AWS thông qua **Amazon RDS** và **Lightsail Database**.
 
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Hosting Website tĩnh với Amazon S3                                                                                             | 22/09/2025   | 22/09/2025      |https://000057.awsstudygroup.com/vi/
+| 3   | -Kiến thức cơ bản về cơ sở dữ liệu với Amazon Relational Database Service (RDS)                                            | 23/09/2025   | 23/09/2025      | <https://000005.awsstudygroup.com/vi/> |
+| 4   | - Tạo RDS database instance  | 24/09/2025      |  24/09/2025       |https://000005.awsstudygroup.com/vi/4-create-rds/
+| 5   | Triển khai Lightsail Database                 | 25/09/2025   | 25/09/2025      | <https://000045.awsstudygroup.com/vi/1-database/> |
+| 6   | - Dịch chuyển sang instance lớn hơn                                                                                         | 26/09/2025   | 26/09/2025      | <https://000045.awsstudygroup.com/vi/7-migrate-to-larger-instances/> |
 
 
 ### Kết quả đạt được tuần 3:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
+* **Lưu trữ Đối tượng (S3):**
+    * Hiểu các khái niệm về **S3 Buckets, Objects, và Access Control List (ACLs)**.
+    * Đã cấu hình thành công một S3 bucket cho việc **Hosting Website Tĩnh** và truy cập được trang web qua URL.
+    * Nắm được cách thiết lập các chính sách bucket để bảo mật nội dung.
+* **Dịch vụ Cơ sở Dữ liệu Quan hệ (RDS):**
+    * Có được kiến thức nền tảng về lợi ích của dịch vụ cơ sở dữ liệu được quản lý như **RDS**.
+    * Hiểu các tính năng chính của RDS như **triển khai Multi-AZ** và **sao lưu tự động**.
+    * Đã **tạo và quản lý thành công một RDS database instance** (ví dụ: MySQL hoặc PostgreSQL).
+* **Lightsail Database:**
+    * Tìm hiểu về giải pháp cơ sở dữ liệu đơn giản hóa do **Amazon Lightsail** cung cấp.
+    * Đã **triển khai và cấu hình thành công một Lightsail Database** instance.
+    * Thực hành quy trình **di chuyển cơ sở dữ liệu** sang một kích thước instance lớn hơn, hiểu được quá trình mở rộng (scaling).
 
 
