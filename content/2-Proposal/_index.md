@@ -27,7 +27,7 @@ Estimated monthly infrastructure costs of $16 - $50 USD, totaling approximately 
 ### 3. Solution Architecture  
 The platform applies AWS Serverless architecture to manage personal schedule and event data, with the capability to easily scale from a single user to millions of individual users. API requests are received through Amazon API Gateway and processed by AWS Lambda, while data is stored in Amazon DynamoDB to ensure fast query speed and low latency. Amazon EventBridge handles reminder scheduling logic, triggers Lambda, and sends notifications. AWS Amplify provides an intuitive web/mobile interface, secured by Amazon Cognito to safely manage access permissions for each user.    
 
-![Aurora Time Platform Architecture](/AWS/images/2-Proposal/platform_architecture.jpg)
+![Aurora Time Platform Architecture](/AWS/images/2-Proposal/aws.jpg)
 
 #### *AWS Services Used*  
 - *AWS Lambda*: Processes business logic for event CRUD operations and triggers scheduled reminder tasks.  
@@ -35,7 +35,6 @@ The platform applies AWS Serverless architecture to manage personal schedule and
 - *Amazon DynamoDB*: Stores event data, schedules, and user information.  
 - *Amazon S3 and CloudFront*: Stores and distributes static content of Frontend applications. 
 - *Amazon EventBridge*: Schedules and triggers automatic reminder events at user-defined times.  
-- *Amazon SES*: Sends customized reminder notifications via email (SES).
 - *AWS Amplify*: Stores and provides intuitive web interface.
 - *Amazon Cognito*: Manages access permissions and secure authentication for individual users. 
 
@@ -84,7 +83,6 @@ The project consists of 2 parts — Backend Serverless setup and Frontend User I
 | **AWS Lambda** | 1 million requests | $0.21/1 million, 1M free | **0.00 (Free)** |
 | **DynamoDB** | ~1GB data (events) | $0/25GB, first 25GB free | **0.11** |
 | **Amazon Cognito** | <1000 active users | Free up to 50k users/month | **0.00 (Free)** |
-| **Amazon SES (email)** | 500 reminder emails/month | $0.10 / 1000 emails (3K free with EC2) | **0.05** |
 | **EventBridge** | 100,000 scheduled events | $1/million events | **0.10** |
 | **CloudWatch Logs** | 1GB log/month | $0.50/GB ingest + $0.03/GB storage | **0.10** |
 | **CI/CD Pipeline + Build** | 20 build/run | 100 min free/month | **0.00 (Free)** |
