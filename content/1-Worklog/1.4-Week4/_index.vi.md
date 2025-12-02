@@ -21,7 +21,7 @@ pre: " <b> 1.4. </b> "
 | 3   | - Thiết lập Hybrid DNS với Route 53 Resolver                                            | 30/09/2025   | 30/09/2025      | <https://000010.awsstudygroup.com/vi/> |
 | 4   | - Thao tác dòng lệnh với AWS CLI | 01/10/2025   | 01/10/2025      | <https://000011.awsstudygroup.com/vi/> |
 | 5   | - Cơ sở dữ liệu NoSQL với Amazon DynamoDB                 | 02/10/2025   | 02/10/2025      | <https://000060.awsstudygroup.com/vi/> |
-| 6   | - Phân phối nội dung với Amazon CloudFront DynamoDB                                                                                        | 03/10/2025   | 03/10/2025      | <https://000060.awsstudygroup.com/vi/> |
+| 6   | - Phân phối nội dung với Amazon CloudFront                                                                                         | 03/10/2025   | 03/10/2025      | <https://000060.awsstudygroup.com/vi/> |
 
 
 ### Kết quả đạt được tuần 4:
