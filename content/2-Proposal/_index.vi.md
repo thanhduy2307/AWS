@@ -27,7 +27,7 @@ Chi phí hạ tầng hàng tháng ước tính $16 - $50 USD, tổng cộng kho�
 ### 3. Kiến trúc giải pháp  
 Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu lịch trình và sự kiện cá nhân, có khả năng dễ dàng mở rộng từ một người dùng lên hàng triệu người dùng cá nhân. Các yêu cầu API được tiếp nhận qua Amazon API Gateway và xử lý bởi AWS Lambda, trong khi dữ liệu được lưu trữ trong Amazon DynamoDB để đảm bảo tốc độ truy vấn nhanh chóng, độ trễ thấp. Amazon EventBridge xử lý logic nhắc nhở theo lịch, kích hoạt Lambda và gửi thông báo. AWS Amplify cung cấp giao diện web/di động trực quan, được bảo mật bởi Amazon Cognito để quản lý quyền truy cập an toàn cho từng người dùng.    
 
-![Aurora Time Platform Architecture](/AWS/images/2-Proposal/platform_architecture.jpg)
+![Aurora Time Platform Architecture](/AWS/images/2-Proposal/aws.jpg)
 
 #### *Dịch vụ AWS sử dụng*  
 - *AWS Lambda*: Xử lý logic nghiệp vụ cho các thao tác CRUD sự kiện và kích hoạt các tác vụ nhắc nhở theo lịch.  
@@ -35,7 +35,6 @@ Nền tảng áp dụng kiến trúc AWS Serverless để quản lý dữ liệu
 - *Amazon DynamoDB*: Lưu trữ dữ liệu sự kiện, lịch trình và thông tin người dùng.  
 - *Amazon S3 và CloudFront*: Lưu trữ và phân phối nội dung tĩnh của ứng dụng Frontend. 
 - *Amazon EventBride*: Lên lịch và kích hoạt các sự kiện nhắc nhở tự động theo thời gian đã định của người dùng.  
-- *Amazon SES*: Gửi thông báo nhắc nhở tùy chỉnh qua email (SES).
 - *AWS Amplify*: Lưu trữ và cung cấp giao diện web trực quan.
 - *Amazon Cognito*: Quản lý quyền truy cập và xác thực an toàn cho người dùng cá nhân. 
 
@@ -83,7 +82,6 @@ Dịch vụ AWS | Đơn vị sử dụng (ước tính) | Đơn giá & Free Tier
 | **AWS Lambda** | 1 triệu requests | $0.21/1 triệu, 1M free | **0.00 (miễn phí)** |
 | **DynamoDB** | ~1GB dữ liệu (sự kiện) | $0/25GB, 25GB đầu miễn phí | **0.11** |
 | **Amazon Cognito** | <1000 active user | Free đến 50k user/tháng | **0.00 (miễn phí)** |
-| **Amazon SES (email)** | 500 email/tháng nhắc nhở | $0.10 / 1000 mail (3K free nếu EC2) | **0.05** |
 | **EventBridge** | 100.000 event scheduled | $1/million event | **0.10** |
 | **CloudWatch Logs** | 1GB log/tháng | $0.50/GB ingest + $0.03/GB lưu | **0.10** |
 | **CI/CD Pipeline + Build** | 20 build/run | 100 min free/tháng | **0.00 (miễn phí)** |
