@@ -5,53 +5,38 @@ weight: 5
 chapter: false
 pre: " <b> 1.5. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
-{{% /notice %}}
-
 
 ### Week 5 Objectives:
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+* Master the concepts and practice **Serverless** architecture using **AWS Lambda**.
+* Learn about user authentication with **Amazon Cognito**.
+* Build a basic **CI/CD pipeline** with **AWS CodePipeline**.
+
+---
 
 ### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                                                   | 08/11/2025 | 08/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 08/12/2025 | 08/12/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 08/13/2025 | 08/13/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 08/14/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 08/15/2025 | 08/15/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Day | Task | Start Date | Completion Date | Reference Material |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | --------------- | ----------------------------------------- |
+| 2 | - Automation using **Serverless** with **AWS Lambda** | 11/08/2025 | 11/08/2025 | https://000022.awsstudygroup.com/vi/ |
+| 3 | - Cross-domain authentication with **Amazon Cognito** | 12/08/2025 | 12/08/2025 | <https://000141.awsstudygroup.com/vi/> |
+| 4 | - **CI/CD Pipeline** with **AWS CodePipeline** | 13/08/2025 | 13/08/2025 | <https://000017.awsstudygroup.com/vi/> |
+| 5 | - Frontend Development for **Serverless API** | 14/08/2025 | 15/08/2025 | <https://000079.awsstudygroup.com/vi/> |
+| 6 | - **Serverless Backend** with **Lambda, S3, and DynamoDB** | 15/08/2025 | 15/08/2025 | <https://000078.awsstudygroup.com/vi/> |
 
+---
 
-### Week 5 Achievements:
+### Week 5 Achievements: ☁️
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
-
-* Successfully created and configured an AWS Free Tier account.
-
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
-
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
-
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* **Automation (Lambda):**
+    * Mastered the **Serverless** concept and how **AWS Lambda** operates.
+    * Successfully created and deployed a basic **Lambda Function**.
+    * Understood how to configure **Triggers** (event sources) for Lambda functions.
+* **Authentication (Cognito):**
+    * Learned about the **Amazon Cognito** service and its role in user identity management.
+    * Successfully created and configured a basic **Cognito User Pool** for managing sign-ups/sign-ins.
+* **Development and Deployment (CI/CD):**
+    * Understood the **Continuous Integration/Continuous Delivery (CI/CD)** process.
+    * Built a **simple CI/CD Pipeline using AWS CodePipeline** to automate code deployment.
+* **End-to-End Serverless Architecture:**
+    * Understood and practiced building a basic **Serverless Backend** by integrating **Lambda** (logic), **S3** (static/frontend storage), and **DynamoDB** (NoSQL database).
+    * Gained knowledge on developing a **Frontend** to communicate with the built **Serverless API**.
