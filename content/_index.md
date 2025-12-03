@@ -13,13 +13,13 @@ chapter: false
 {{% /notice %}}
 
 ### Student Information:
-&emsp; **Full Name:** Nguyen Van A
+&emsp; **Full Name:** Truong Thanh Duy
 
-&emsp; **Phone Number:** 0989888999 
+&emsp; **Phone Number:** 0357896187 
 
-&emsp; **Email:** Anguyenvan@gmail.com
+&emsp; **Email:** duyttse183779@fpt.edu.vn
 
-&emsp; **University:** Ho Chi Minh City University of Technology and Education
+&emsp; **University:** FPT University
 
 &emsp; **Major:** Information Technology
 
@@ -29,7 +29,7 @@ chapter: false
 
 &emsp; **Internship Position:** FCJ Cloud Intern
 
-&emsp; **Internship Duration:** From 12/08/2025 to 12/11/2025
+&emsp; **Internship Duration:** From 08/09/2025 to 12/12/2025
 
 ![Your profile picture](/images/avatar.png)
 
