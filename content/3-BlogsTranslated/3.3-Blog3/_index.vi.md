@@ -1,127 +1,122 @@
 ---
 title: "Blog 3"
-date: 2025-11-11
-weight: 1
+date: "2025-09-09T19:53:52+07:00"
+weight: 3
 chapter: false
 pre: " <b> 3.3. </b> "
 ---
 
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
-# Bắt đầu với healthcare data lakes: Sử dụng microservices
-
-Các data lake có thể giúp các bệnh viện và cơ sở y tế chuyển dữ liệu thành những thông tin chi tiết về doanh nghiệp và duy trì hoạt động kinh doanh liên tục, đồng thời bảo vệ quyền riêng tư của bệnh nhân. **Data lake** là một kho lưu trữ tập trung, được quản lý và bảo mật để lưu trữ tất cả dữ liệu của bạn, cả ở dạng ban đầu và đã xử lý để phân tích. data lake cho phép bạn chia nhỏ các kho chứa dữ liệu và kết hợp các loại phân tích khác nhau để có được thông tin chi tiết và đưa ra các quyết định kinh doanh tốt hơn.
-
-Bài đăng trên blog này là một phần của loạt bài lớn hơn về việc bắt đầu cài đặt data lake dành cho lĩnh vực y tế. Trong bài đăng blog cuối cùng của tôi trong loạt bài, *“Bắt đầu với data lake dành cho lĩnh vực y tế: Đào sâu vào Amazon Cognito”*, tôi tập trung vào các chi tiết cụ thể của việc sử dụng Amazon Cognito và Attribute Based Access Control (ABAC) để xác thực và ủy quyền người dùng trong giải pháp data lake y tế. Trong blog này, tôi trình bày chi tiết cách giải pháp đã phát triển ở cấp độ cơ bản, bao gồm các quyết định thiết kế mà tôi đã đưa ra và các tính năng bổ sung được sử dụng. Bạn có thể truy cập các code samples cho giải pháp tại Git repo này để tham khảo.
+# Cách Blocksee Xây Dựng CRM Web3 Với Dữ Liệu Blockchain Từ Amazon Managed Blockchain (AMB) Query  
+**Tác giả:** Forrest Colyer & AJ Park  
+**Xuất bản:** Ngày 06 tháng 03 năm 2024  
+**Chuyên mục:** Amazon Managed Blockchain, Blockchain, Customer Solutions, Foundational (100)
 
 ---
 
-## Hướng dẫn kiến trúc
+## Về Các Tác Giả
 
-Thay đổi chính kể từ lần trình bày cuối cùng của kiến trúc tổng thể là việc tách dịch vụ đơn lẻ thành một tập hợp các dịch vụ nhỏ để cải thiện khả năng bảo trì và tính linh hoạt. Việc tích hợp một lượng lớn dữ liệu y tế khác nhau thường yêu cầu các trình kết nối chuyên biệt cho từng định dạng; bằng cách giữ chúng được đóng gói riêng biệt với microservices, chúng ta có thể thêm, xóa và sửa đổi từng trình kết nối mà không ảnh hưởng đến những kết nối khác. Các microservices được kết nối rời thông qua tin nhắn publish/subscribe tập trung trong cái mà tôi gọi là “pub/sub hub”.
+**AJ Park** là Quản lý Sản phẩm trong nhóm Amazon Managed Blockchain tại AWS.  
+Với hơn 20 năm kinh nghiệm trong lĩnh vực bảo vệ và lưu trữ dữ liệu với vai trò là kỹ sư phần mềm và quản lý sản phẩm, ông đam mê xây dựng các giải pháp blockchain và Web3 cho khách hàng.
 
-Giải pháp này đại diện cho những gì tôi sẽ coi là một lần lặp nước rút hợp lý khác từ last post của tôi. Phạm vi vẫn được giới hạn trong việc nhập và phân tích cú pháp đơn giản của các **HL7v2 messages** được định dạng theo **Quy tắc mã hóa 7 (ER7)** thông qua giao diện REST.
-
-**Kiến trúc giải pháp bây giờ như sau:**
-
-> *Hình 1. Kiến trúc tổng thể; những ô màu thể hiện những dịch vụ riêng biệt.*
+**Forrest Colyer** là Trưởng nhóm Kiến trúc Giải pháp Chuyên biệt về Web3/Blockchain, nhóm này hỗ trợ dịch vụ Amazon Managed Blockchain (AMB).  
+Ông làm việc với khách hàng qua mọi giai đoạn áp dụng blockchain—từ thử nghiệm ý tưởng (proof-of-concept) đến vận hành thực tế—cung cấp chuyên môn kỹ thuật và định hướng chiến lược để triển khai các khối lượng công việc blockchain có tác động lớn.
 
 ---
 
-Mặc dù thuật ngữ *microservices* có một số sự mơ hồ cố hữu, một số đặc điểm là chung:  
-- Chúng nhỏ, tự chủ, kết hợp rời rạc  
-- Có thể tái sử dụng, giao tiếp thông qua giao diện được xác định rõ  
-- Chuyên biệt để giải quyết một việc  
-- Thường được triển khai trong **event-driven architecture**
+# Tổng Quan
 
-Khi xác định vị trí tạo ranh giới giữa các microservices, cần cân nhắc:  
-- **Nội tại**: công nghệ được sử dụng, hiệu suất, độ tin cậy, khả năng mở rộng  
-- **Bên ngoài**: chức năng phụ thuộc, tần suất thay đổi, khả năng tái sử dụng  
-- **Con người**: quyền sở hữu nhóm, quản lý *cognitive load*
+**Blocksee** cung cấp nền tảng Quản lý Quan hệ Khách hàng (CRM) và tương tác người dùng tập trung vào Web3, mang lại thông tin chuyên sâu phong phú cho các nhà tiếp thị NFT và tiền điện tử.  
+Bằng cách nhúng đoạn mã đơn giản vào trang web hoặc sử dụng API, Blocksee cho phép các nhà tiếp thị thu thập dữ liệu về những người dùng tương tác với thành viên kỹ thuật số, vé sự kiện và tài sản khuyến mãi.
 
----
+Được hỗ trợ bởi các dịch vụ AWS—bao gồm **Amazon Managed Blockchain (AMB)**—Blocksee giúp các thương hiệu xây dựng:
 
-## Lựa chọn công nghệ và phạm vi giao tiếp
+- Chương trình khách hàng thân thiết  
+- Nội dung giới hạn bằng token (Token-gated content)  
+- Hành trình khách hàng động  
+- Tạo ví tự động qua email  
+- Thanh toán onramp để nhận tài sản kỹ thuật số (ví dụ: NFT)
 
-| Phạm vi giao tiếp                        | Các công nghệ / mô hình cần xem xét                                                        |
-| ---------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Trong một microservice                   | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Giữa các microservices trong một dịch vụ | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Giữa các dịch vụ                         | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Để cho phép phân tích chuyên sâu về hoạt động của tài sản kỹ thuật số và tương tác của người dùng, Blocksee yêu cầu lượng lớn **dữ liệu on-chain** từ các blockchain công khai như Ethereum, bao gồm:
 
----
+- Số dư token hiện tại và lịch sử  
+- Quyền sở hữu token có thể thay thế (fungible) và không thể thay thế (NFT)  
+- Tương tác của người dùng với các ứng dụng Web3 và hợp đồng thông minh  
 
-## The pub/sub hub
+Blocksee đã đánh giá nhiều phương pháp kỹ thuật—từ tự vận hành toàn bộ cơ sở hạ tầng blockchain đến sử dụng các nhà cung cấp bên thứ ba.  
+Cơ sở hạ tầng tự quản lý được chứng minh là quá tốn kém và nặng nề về mặt vận hành do:
 
-Việc sử dụng kiến trúc **hub-and-spoke** (hay message broker) hoạt động tốt với một số lượng nhỏ các microservices liên quan chặt chẽ.  
-- Mỗi microservice chỉ phụ thuộc vào *hub*  
-- Kết nối giữa các microservice chỉ giới hạn ở nội dung của message được xuất  
-- Giảm số lượng synchronous calls vì pub/sub là *push* không đồng bộ một chiều
+- Nhu cầu tính toán (compute), lưu trữ và mạng cao  
+- Quy trình ETL (Trích xuất, Biến đổi, Tải) và hoạt động lập chỉ mục tiêu tốn tài nguyên  
+- Nỗ lực của nhà phát triển đáng kể, làm chậm quá trình phân phối tính năng sản phẩm cốt lõi  
 
-Nhược điểm: cần **phối hợp và giám sát** để tránh microservice xử lý nhầm message.
+Các nhà cung cấp dữ liệu blockchain bên thứ ba cũng không đủ đáp ứng, với các thách thức như:
 
----
-
-## Core microservice
-
-Cung cấp dữ liệu nền tảng và lớp truyền thông, gồm:  
-- **Amazon S3** bucket cho dữ liệu  
-- **Amazon DynamoDB** cho danh mục dữ liệu  
-- **AWS Lambda** để ghi message vào data lake và danh mục  
-- **Amazon SNS** topic làm *hub*  
-- **Amazon S3** bucket cho artifacts như mã Lambda
-
-> Chỉ cho phép truy cập ghi gián tiếp vào data lake qua hàm Lambda → đảm bảo nhất quán.
+- Thời gian hoạt động (uptime) không đáng tin cậy  
+- Chất lượng dữ liệu kém  
+- Hiệu năng chậm  
+- Chi phí cao và khó dự đoán  
 
 ---
 
-## Front door microservice
+# Tại Sao Blocksee Chọn Amazon Managed Blockchain (AMB) Query
 
-- Cung cấp API Gateway để tương tác REST bên ngoài  
-- Xác thực & ủy quyền dựa trên **OIDC** thông qua **Amazon Cognito**  
-- Cơ chế *deduplication* tự quản lý bằng DynamoDB thay vì SNS FIFO vì:
-  1. SNS deduplication TTL chỉ 5 phút
-  2. SNS FIFO yêu cầu SQS FIFO
-  3. Chủ động báo cho sender biết message là bản sao
+Cuối cùng, Blocksee đã áp dụng **AMB Query**, một API dữ liệu blockchain hợp nhất cho nhiều mạng công khai.
 
----
+Lợi ích của việc chuyển đổi:
 
-## Staging ER7 microservice
+### ✔ Độ tin cậy cao hơn### ✔ Chi phí thấp hơn và dễ dự đoán  
+### ✔ Hiệu năng nhanh hơn  
+### ✔ Một API duy nhất, nhất quán cho nhiều blockchain  
 
-- Lambda “trigger” đăng ký với pub/sub hub, lọc message theo attribute  
-- Step Functions Express Workflow để chuyển ER7 → JSON  
-- Hai Lambda:
-  1. Sửa format ER7 (newline, carriage return)
-  2. Parsing logic  
-- Kết quả hoặc lỗi được đẩy lại vào pub/sub hub
+Điều này cho phép Blocksee rút ngắn chu kỳ phát hành sản phẩm và giảm chi phí kỹ thuật.
+
+Tuyên bố từ **Eric Forst, Đồng sáng lập & Giám đốc điều hành (CEO) của Blocksee**, nhấn mạnh sự thay đổi này:
+
+> “Trước khi sử dụng Amazon Managed Blockchain, nhóm của chúng tôi phải tổng hợp dữ liệu từ nhiều nhà cung cấp RPC khác nhau, dẫn đến cấu hình API phức tạp và chi phí giám sát.  
+> AMB đã thay đổi mọi thứ — quyền truy cập nhanh và ổn định vào dữ liệu blockchain đã giúp chúng tôi hợp lý hóa hệ thống của mình và dựa vào một cơ sở hạ tầng đáng tin cậy hơn.”
 
 ---
 
-## Tính năng mới trong giải pháp
+# Cách Blocksee Sử Dụng AMB Query
 
-### 1. AWS CloudFormation cross-stack references
-Ví dụ *outputs* trong core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Khi các nhà tiếp thị hoặc quản lý dự án mở công cụ Blocksee CRM, dữ liệu số dư token cho các địa chỉ blockchain (người dùng) được hiển thị ngay lập tức và kết hợp với các dữ liệu ngữ cảnh bổ sung như phân tích hành vi được hỗ trợ bởi AI.
+
+Blocksee sử dụng **ListTokenBalances API** từ AMB Query để truy xuất số dư token **ERC-20 và ERC-721**.  
+API này cho phép Blocksee:
+
+- Liệt kê tất cả số dư token thuộc về một ví hoặc hợp đồng  
+- Liệt kê tất cả chủ sở hữu token cho một hợp đồng thông minh nhất định  
+- Liệt kê số dư cho một token cụ thể trên tất cả các chủ sở hữu  
+
+### ⭐ Kết Quả:  
+**Cải thiện hiệu suất 25%**  
+**Giảm chi phí 50%**  
+so với cơ chế truy xuất dữ liệu token trước đây của Blocksee.
+
+CTO của Blocksee, **Matt Kotnik**, chia sẻ thêm thông tin chi tiết:
+
+> “Chúng tôi nhận thấy sự cải thiện đáng kể về thời gian tải—nhanh hơn hơn 25%—khi sử dụng ListTokenBalances API của AMB Query.  
+> AMB cũng cho phép chúng tôi dễ dàng mở rộng sang các blockchain bổ sung nhờ thiết kế trung lập chuỗi của Amazon.  
+> Điều này giúp chúng tôi tập trung nhiều hơn vào sản phẩm cốt lõi và mối quan hệ khách hàng trong khi vẫn dựa vào một đối tác cơ sở hạ tầng đáng tin cậy.”
+
+Vì AMB Query sử dụng một **REST API chuẩn hóa**, việc tích hợp các blockchain mới trong tương lai trở nên đơn giản.  
+Cú pháp truy vấn gần như không thay đổi ngay cả khi tìm nạp dữ liệu trên nhiều mạng cùng lúc.
+
+---
+
+# Kết Luận
+
+AMB Query hiện đã có sẵn tại Khu vực **US East (N. Virginia)**, cung cấp:
+
+- Độ trễ dưới giây (Sub-second latency)  
+- Khả năng truy cập có thể mở rộng cao vào số dư blockchain và giao dịch lịch sử  
+- Không cần vận hành cơ sở hạ tầng blockchain  
+- Mô hình giá đơn giản, dễ dự đoán dựa trên các cuộc gọi API  
+
+Khách hàng có thể tin tưởng vào AMB Query để có dữ liệu blockchain hiệu suất cao, đáng tin cậy, đáp ứng nhu cầu của các ứng dụng Web3 thực tế.
+
+Để tìm hiểu thêm:
+
+- Khám phá **Tài liệu AMB Query**  
+- Khám phá các dịch vụ AMB khác tại **Amazon Managed Blockchain**
