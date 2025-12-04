@@ -5,55 +5,28 @@ weight: 7
 chapter: false
 pre: " <b> 1.7. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 
 ### Mục tiêu tuần 7:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
-
+* **Ôn tập chuyên sâu:** Hoàn thành việc ôn tập 4 trụ cột của **AWS Well-Architected Framework** để chuẩn bị cho bài thi giữa kỳ.
+* **Hệ thống hóa kiến thức:** Nắm vững vai trò và cách thức hoạt động của các dịch vụ trọng tâm (IAM, KMS, Multi-AZ, Lambda, CloudFront) trong từng trụ cột.
+* **Tinh thần & Chuẩn bị:** Giữ tinh thần thoải mái, sẵn sàng tham gia bài thi giữa kỳ.
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 11/08/2025   | 11/08/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 12/08/2025   | 12/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| 2   | - Ôn tập nhóm thiết kế kiến trúc bảo mật (Secure Architectures) :IAM, KMS, Security Groups, NACLs, Secrets Manager                                                                               | 20/10/2025   | 20/10/2025      |
+| 3   | - Ôn tập thiết kế kiến trúc linh hoạt và bền vững (Resilient Architectures):Multi-AZ, Auto Scaling, Route 53, DR Strategies                                            | 21/10/2025   | 21/10/2025      |  |
+| 4   | - Ôn tập thiết kế hệ thống hiệu năng cao (High-Performing Architectures):Lambda, Caching, CloudFront, EC2 Auto Scaling, S3 (Storage Tiering).   | 22/10/2025   | 22/10/2025      |  |
+| 5   | -Ôn tập thiết kế hệ thống hiệu năng cao (High-Performing Architectures):Lambda, Caching, CloudFront, EC2 Auto Scaling, S3 (Storage Tiering).                  | 23/10/2025   | 23/10/2025      |  |
+| 6   | - Nghỉ ngơi chuẩn bị tinh thần mai đi thi giữa kì                                                                                | 24/10/2025   | 24/10/2025      |  |
 
 
 ### Kết quả đạt được tuần 7:
+** Hoàn thành Lộ trình Ôn tập: Đã hoàn thành việc ôn tập toàn bộ kiến thức chuyên sâu về 4 trụ cột AWS Well-Architected Framework (Bảo mật, Bền vững, Hiệu năng, Tối ưu chi phí) theo đúng kế hoạch đề ra. ** 
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+Hệ thống hóa Kiến thức Trọng tâm: Đã nắm vững và phân loại vai trò của các dịch vụ cốt lõi (IAM, KMS, Multi-AZ, Auto Scaling, Lambda, CloudFront, S3) theo từng trụ cột kiến trúc.
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+Củng cố Kiến thức Nền tảng: Đã ôn tập lại các nhóm dịch vụ AWS cơ bản (Compute, Storage, Networking, Database,...) và cách sử dụng AWS Console/CLI.
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+Chuẩn bị Bài thi: Đã tổng hợp và hệ thống hóa kiến thức, chuẩn bị tâm lý và tinh thần sẵn sàng tham gia bài thi giữa kỳ.
