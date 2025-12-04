@@ -1,126 +1,122 @@
 ---
 title: "Blog 3"
-date: 2025-11-11
-weight: 1
+date: "2025-09-09T19:53:52+07:00"
+weight: 3
 chapter: false
 pre: " <b> 3.3. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
-{{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
 
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
-
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
+# How Blocksee Built a Web3 CRM Using Blockchain Data from Amazon Managed Blockchain (AMB) Query  
+**Authors:** Forrest Colyer & AJ Park  
+**Published:** March 6, 2024  
+**Categories:** Amazon Managed Blockchain, Blockchain, Customer Solutions, Foundational (100)
 
 ---
 
-## Architecture Guidance
+## About the Authors
 
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
+**AJ Park** is a Product Manager on the Amazon Managed Blockchain team at AWS.  
+With over 20 years of experience in data protection and storage as a software engineer and product manager, he is passionate about building blockchain and Web3 solutions for customers.
 
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
-
-**The solution architecture is now as follows:**
-
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+**Forrest Colyer** leads the Web3/Blockchain Specialist Solutions Architecture team supporting Amazon Managed Blockchain (AMB).  
+He works with customers across all stages of blockchain adoption—from proof-of-concept to production—providing technical expertise and strategic direction for implementing impactful blockchain workloads.
 
 ---
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+# Overview
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+**Blocksee** provides a Web3-focused CRM and user engagement platform that delivers rich insights for NFT and crypto marketers.  
+By embedding simple code into a website or using APIs, Blocksee enables marketers to collect data about users who interact with digital memberships, event tickets, and promotional assets.
 
----
+Powered by AWS services—including **Amazon Managed Blockchain (AMB)**—Blocksee helps brands build:
 
-## Technology Choices and Communication Scope
+- Loyalty programs  
+- Token-gated content  
+- Dynamic customer journeys  
+- Automatic wallet creation via email  
+- Onramp payments for receiving digital assets (e.g., NFTs)
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+To enable deep analytics on digital asset activity and user interactions, Blocksee requires massive amounts of **on-chain data** from public blockchains such as Ethereum, including:
 
----
+- Current & historical token balances  
+- Ownership of fungible and non-fungible tokens (NFTs)  
+- User interactions with Web3 applications & smart contracts  
 
-## The Pub/Sub Hub
+Blocksee evaluated multiple technical approaches—from operating its own full blockchain infrastructure to using third-party providers.  
+Self-managed infrastructure proved too costly and operationally heavy due to:
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
+- High compute, storage & networking demands  
+- Resource-heavy ETL pipelines and indexing operations  
+- Significant developer effort that slowed product feature delivery  
 
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
+Third-party blockchain data providers were also insufficient, with challenges such as:
 
----
-
-## Core Microservice
-
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+- Unreliable uptime  
+- Poor data quality  
+- Slow performance  
+- High and unpredictable pricing  
 
 ---
 
-## Front Door Microservice
+# Why Blocksee Chose Amazon Managed Blockchain (AMB) Query
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+Blocksee ultimately adopted **AMB Query**, a unified blockchain data API for multiple public networks.
 
----
+Benefits of switching:
 
-## Staging ER7 Microservice
+### ✔ Higher reliability### ✔ Lower and predictable cost  
+### ✔ Faster performance  
+### ✔ A single, consistent API for multiple blockchains  
 
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+This allowed Blocksee to shorten product release cycles and reduce engineering overhead.
+
+A statement from **Eric Forst, Co-founder & CEO of Blocksee**, highlights the transformation:
+
+> “Before using Amazon Managed Blockchain, our team had to aggregate data from many different RPC providers, resulting in complex API configurations and monitoring overhead.  
+> AMB changed everything — fast and stable access to blockchain data helped us streamline our system and rely on a more trustworthy infrastructure.”
 
 ---
 
-## New Features in the Solution
+# How Blocksee Uses AMB Query
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+When marketers or project managers open Blocksee CRM, token balance data for blockchain addresses (users) is displayed instantly and combined with additional context such as AI-driven behavioral analytics.
+
+Blocksee uses the **ListTokenBalances API** from AMB Query to retrieve ERC-20 and ERC-721 token balances.  
+The API allows Blocksee to:
+
+- List all token balances belonging to a wallet or contract  
+- List all token holders for a given smart contract  
+- List balances for a specific token across all holders  
+
+### ⭐ Result:  
+**25% performance improvement**  
+**50% cost reduction**  
+compared to Blocksee’s previous token data retrieval mechanism.
+
+Blocksee CTO **Matt Kotnik** shared additional insights:
+
+> “We saw significant load time improvements—over 25% faster—using AMB Query’s ListTokenBalances API.  
+> AMB also allows us to scale easily to additional blockchains thanks to Amazon’s chain-agnostic design.  
+> This helps us focus more on our core product and customer relationships while relying on a trusted infrastructure partner.”
+
+Because AMB Query uses a **standardized REST API**, integrating new blockchains in the future becomes simple.  
+The query syntax remains nearly the same even when fetching data across multiple networks.
+
+---
+
+# Conclusion
+
+AMB Query is now available in the **US East (N. Virginia)** Region, offering:
+
+- Sub-second latency  
+- Highly scalable access to blockchain balances & historical transactions  
+- No need to operate blockchain infrastructure  
+- Simple, predictable pricing based on API calls  
+
+Customers can rely on AMB Query for high-performance, reliable blockchain data that meets the demands of real-world Web3 applications.
+
+To learn more:
+
+- Explore **AMB Query Documentation**  
+- Explore other AMB services at **Amazon Managed Blockchain**
