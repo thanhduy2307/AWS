@@ -17,11 +17,11 @@ pre: " <b> 1.5. </b> "
 ### Tasks to be carried out this week:
 | Day | Task | Start Date | Completion Date | Reference Material |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | --------------- | ----------------------------------------- |
-| 2 | - Automation using **Serverless** with **AWS Lambda** | 11/08/2025 | 11/08/2025 | https://000022.awsstudygroup.com/vi/ |
-| 3 | - Cross-domain authentication with **Amazon Cognito** | 12/08/2025 | 12/08/2025 | <https://000141.awsstudygroup.com/vi/> |
-| 4 | - **CI/CD Pipeline** with **AWS CodePipeline** | 13/08/2025 | 13/08/2025 | <https://000017.awsstudygroup.com/vi/> |
-| 5 | - Frontend Development for **Serverless API** | 14/08/2025 | 15/08/2025 | <https://000079.awsstudygroup.com/vi/> |
-| 6 | - **Serverless Backend** with **Lambda, S3, and DynamoDB** | 15/08/2025 | 15/08/2025 | <https://000078.awsstudygroup.com/vi/> |
+| 2 | - Automation using **Serverless** with **AWS Lambda** | 06/10/2025 | 06/10/2025 | https://000022.awsstudygroup.com/vi/ |
+| 3 | - Cross-domain authentication with **Amazon Cognito** | 07/10/2025 | 07/10/2025 | <https://000141.awsstudygroup.com/vi/> |
+| 4 | - **CI/CD Pipeline** with **AWS CodePipeline** | 08/10/2025 | 08/10/2025 | <https://000017.awsstudygroup.com/vi/> |
+| 5 | - Frontend Development for **Serverless API** | 09/10/2025 | 09/10/2025 | <https://000079.awsstudygroup.com/vi/> |
+| 6 | - **Serverless Backend** with **Lambda, S3, and DynamoDB** | 10/10/2025 | 10/10/2025 | <https://000078.awsstudygroup.com/vi/> |
 
 ---
 
