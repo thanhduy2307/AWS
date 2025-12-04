@@ -5,54 +5,30 @@ weight: 6
 chapter: false
 pre: " <b> 1.6. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 
 ### Mục tiêu tuần 6:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* **Hoàn thiện tích hợp Frontend-Backend Serverless:** Nắm vững cách xây dựng giao diện Frontend và thiết lập lời gọi API từ Frontend đến **API Gateway**.
+* **Thiết lập Giám sát Hệ thống:** Thực hành tạo và sử dụng **Amazon CloudWatch** để tạo bảng điều khiển theo dõi hiệu suất hệ thống.
+* **Chuẩn bị Dự án Cuối kỳ:** Thống nhất ý tưởng, phân chia công việc trong nhóm và bắt tay vào **xây dựng các thành phần cơ bản** của dự án.
 
 ### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Serverless - Hướng dẫn viết Frontend gọi API Gateway                                                                                            | 11/08/2025   | 11/08/2025      |https://000079.awsstudygroup.com/vi/
-| 3   | - Tạo bảng theo dõi hệ thống với Amazon Cloudwatch                                           | 12/08/2025   | 12/08/2025      | <https://000008.awsstudygroup.com/vi/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 13/08/2025   | 13/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 14/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 15/08/2025   | 15/08/2025      | <https://cloudjourney.awsstudygroup.com/> |
+| Thứ | Công việc | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
+| :--- | :--- | :--- | :--- | :--- |
+| 2 | - Serverless - Hướng dẫn viết Frontend gọi API Gateway | 13/10/2025 | 13/10/2025 | https://000079.awsstudygroup.com/vi/ |
+| 3 | - Tạo bảng theo dõi hệ thống với Amazon Cloudwatch | 14/10/2025 | 14/10/2025 | <https://000008.awsstudygroup.com/vi/> |
+| 4 | - Nghỉ ngơi | 15/10/2025 | 15/10/2025 | |
+| 5 | - Họp nhóm chuẩn bị lên ý tưởng làm dự án cuối kì | 16/10/2025 | 16/10/2025 | |
+| 6 | - **Thực hành:** bắt tay vào xây dựng dự án | 17/10/2025 | 17/10/2025 | |
 
 
 ### Kết quả đạt được tuần 6:
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
-
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
-
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
-
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* **Hoàn thành tích hợp Frontend Serverless:** Đã nghiên cứu và thực hành thành công việc viết code **Frontend** (giao diện người dùng) để thực hiện các lời gọi API đến **API Gateway** (theo hướng dẫn).
+* **Thiết lập giám sát hệ thống (Monitoring):** Đã thực hành tạo và cấu hình các **bảng theo dõi (Dashboards)** trong **Amazon CloudWatch** để giám sát các tài nguyên và hiệu suất hệ thống cơ bản.
+* **Khởi động Dự án Cuối kỳ:**
+    * Đã tham gia **Họp nhóm** để **trao đổi và thống nhất ý tưởng** cho dự án cuối kỳ.
+    * Đã bắt tay vào **xây dựng các thành phần đầu tiên** của dự án (ví dụ: tạo cấu trúc thư mục, khởi tạo các dịch vụ AWS ban đầu).
+* **Củng cố kiến thức Serverless:** Nắm được luồng hoạt động cơ bản của kiến trúc **Serverless** thông qua việc kết nối Frontend, API Gateway và các dịch vụ Backend liên quan.
+* **Tăng cường kỹ năng làm việc nhóm:** Tham gia tích cực vào quá trình thảo luận và phân chia công việc trong nhóm để chuẩn bị cho dự án lớn.
