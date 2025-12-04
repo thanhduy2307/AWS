@@ -16,11 +16,11 @@ pre: " <b> 1.5. </b> "
 ### Các công việc cần triển khai trong tuần này:
 | Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Tự động hóa bằng Serverless với AWS Lambda                                                                                             | 11/08/2025   | 11/08/2025      |https://000022.awsstudygroup.com/vi/
-| 3   | - Xác thực liên miền với Amazon Cognito                                            | 12/08/2025   | 12/08/2025      | <https://000141.awsstudygroup.com/vi/> |
-| 4   | - Pipeline CI/CD với AWS CodePipeline | 13/08/2025   | 13/08/2025      | <https://000017.awsstudygroup.com/vi/> |
-| 5   | - Phát triển Frontend cho API Serverless                  | 14/08/2025   | 15/08/2025      | <https://000079.awsstudygroup.com/vi/> |
-| 6   | - Backend Serverless với Lambda, S3 và DynamoDB                                                                                        | 15/08/2025   | 15/08/2025      | <https://000078.awsstudygroup.com/vi/> |
+| 2   | - Tự động hóa bằng Serverless với AWS Lambda                                                                                             | 06/10/2025   | 06/10/2025      |https://000022.awsstudygroup.com/vi/
+| 3   | - Xác thực liên miền với Amazon Cognito                                            | 07/10/2025  | 07/10/2025      | <https://000141.awsstudygroup.com/vi/> |
+| 4   | - Pipeline CI/CD với AWS CodePipeline | 08/10/2025   | 08/10/2025     | <https://000017.awsstudygroup.com/vi/> |
+| 5   | - Phát triển Frontend cho API Serverless                  | 09/10/2025   | 09/10/2025      | <https://000079.awsstudygroup.com/vi/> |
+| 6   | - Backend Serverless với Lambda, S3 và DynamoDB                                                                                        |10/10/2025   | 10/10/2025      | <https://000078.awsstudygroup.com/vi/> |
 
 
 ### Kết quả đạt được tuần 5:
@@ -37,6 +37,6 @@ pre: " <b> 1.5. </b> "
     * Xây dựng một **Pipeline CI/CD đơn giản với AWS CodePipeline** để tự động hóa việc triển khai code.
 * **Kiến trúc Serverless End-to-End:**
     * Hiểu và thực hành xây dựng một kiến trúc **Serverless Backend** cơ bản bằng cách tích hợp **Lambda** (logic), **S3** (lưu trữ tĩnh/frontend), và **DynamoDB** (cơ sở dữ liệu NoSQL).
-    * Nắm được cách phát triển **Frontend** để giao tiếp với **API Serverless** đã được xây dựng.
+    * Nắm được cách phát triển **Frontend** để giao tiếp với **API Serverless** đã được xây dựng.   
 
 
