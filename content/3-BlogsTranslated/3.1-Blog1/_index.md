@@ -1,126 +1,194 @@
 ---
 title: "Blog 1"
-date: 2025-11-11
+date: "2025-09-09T19:53:52+07:00"
 weight: 1
 chapter: false
 pre: " <b> 3.1. </b> "
 ---
+
 {{% notice warning %}}
-⚠️ **Note:** The information below is for reference purposes only. Please **do not copy verbatim** for your report, including this warning.
+Note: The article below is an interpreted translation of an AWS Database Blog.  
+Please do not copy it verbatim into any official report.
 {{% /notice %}}
 
-# Getting Started with Healthcare Data Lakes: Using Microservices
-
-Data lakes can help hospitals and healthcare facilities turn data into business insights, maintain business continuity, and protect patient privacy. A **data lake** is a centralized, managed, and secure repository to store all your data, both in its raw and processed forms for analysis. Data lakes allow you to break down data silos and combine different types of analytics to gain insights and make better business decisions.
-
-This blog post is part of a larger series on getting started with setting up a healthcare data lake. In my final post of the series, *“Getting Started with Healthcare Data Lakes: Diving into Amazon Cognito”*, I focused on the specifics of using Amazon Cognito and Attribute Based Access Control (ABAC) to authenticate and authorize users in the healthcare data lake solution. In this blog, I detail how the solution evolved at a foundational level, including the design decisions I made and the additional features used. You can access the code samples for the solution in this Git repo for reference.
-
----
-
-## Architecture Guidance
-
-The main change since the last presentation of the overall architecture is the decomposition of a single service into a set of smaller services to improve maintainability and flexibility. Integrating a large volume of diverse healthcare data often requires specialized connectors for each format; by keeping them encapsulated separately as microservices, we can add, remove, and modify each connector without affecting the others. The microservices are loosely coupled via publish/subscribe messaging centered in what I call the “pub/sub hub.”
-
-This solution represents what I would consider another reasonable sprint iteration from my last post. The scope is still limited to the ingestion and basic parsing of **HL7v2 messages** formatted in **Encoding Rules 7 (ER7)** through a REST interface.
-
-**The solution architecture is now as follows:**
-
-> *Figure 1. Overall architecture; colored boxes represent distinct services.*
+# Optimizing Code Conversion & Testing from Microsoft SQL Server and Oracle to PostgreSQL Using Amazon Bedrock  
+**Authors:** Swanand Kshirsagar, Jose Amado-Blanco, Viswanatha Shastry Medipalli  
+**Published:** June 2, 2025  
+**Categories:** Amazon Aurora, Amazon RDS, AWS Bedrock, Schema Conversion, PostgreSQL, Technical How-to
 
 ---
 
-While the term *microservices* has some inherent ambiguity, certain traits are common:  
-- Small, autonomous, loosely coupled  
-- Reusable, communicating through well-defined interfaces  
-- Specialized to do one thing well  
-- Often implemented in an **event-driven architecture**
+Organizations today are modernizing their database infrastructure by migrating from legacy engines such as **Microsoft SQL Server** and **Oracle** to **PostgreSQL**, an open-source engine that provides cost benefits, flexibility, and strong scalability.
 
-When determining where to draw boundaries between microservices, consider:  
-- **Intrinsic**: technology used, performance, reliability, scalability  
-- **Extrinsic**: dependent functionality, rate of change, reusability  
-- **Human**: team ownership, managing *cognitive load*
+Migrating to PostgreSQL not only reduces licensing costs, but also enables innovation through PostgreSQL’s rich feature set.  
+This blog explains how **Amazon Bedrock’s generative AI** can accelerate and simplify the process of converting and testing database code during migration.
+
+Because **Amazon Q Developer** is built on top of Bedrock models, the same approach can also be applied when using Amazon Q Developer.
 
 ---
 
-## Technology Choices and Communication Scope
+# Challenges in Heterogeneous Database Migration
 
-| Communication scope                       | Technologies / patterns to consider                                                        |
-| ----------------------------------------- | ------------------------------------------------------------------------------------------ |
-| Within a single microservice              | Amazon Simple Queue Service (Amazon SQS), AWS Step Functions                               |
-| Between microservices in a single service | AWS CloudFormation cross-stack references, Amazon Simple Notification Service (Amazon SNS) |
-| Between services                          | Amazon EventBridge, AWS Cloud Map, Amazon API Gateway                                      |
+Migrating from SQL Server or Oracle to PostgreSQL typically involves:
 
----
+### **1. Schema Conversion**  
+Translating tables, views, constraints, indexes, and data types into formats compatible with PostgreSQL.
 
-## The Pub/Sub Hub
+### **2. Business Logic Conversion**  
+Transforming stored procedures, triggers, functions, and error-handling logic into PL/pgSQL.
 
-Using a **hub-and-spoke** architecture (or message broker) works well with a small number of tightly related microservices.  
-- Each microservice depends only on the *hub*  
-- Inter-microservice connections are limited to the contents of the published message  
-- Reduces the number of synchronous calls since pub/sub is a one-way asynchronous *push*
+### **3. Data Migration**  
+Executing ETL processes while ensuring accuracy, consistency, and type compatibility.
 
-Drawback: **coordination and monitoring** are needed to avoid microservices processing the wrong message.
+### **4. Application Code Updates**  
+Adjusting SQL queries or ORM configuration to work correctly with PostgreSQL.
 
----
+### **5. Performance Tuning**  
+Optimizing SQL, indexing, and execution plans in the new PostgreSQL engine.
 
-## Core Microservice
-
-Provides foundational data and communication layer, including:  
-- **Amazon S3** bucket for data  
-- **Amazon DynamoDB** for data catalog  
-- **AWS Lambda** to write messages into the data lake and catalog  
-- **Amazon SNS** topic as the *hub*  
-- **Amazon S3** bucket for artifacts such as Lambda code
-
-> Only allow indirect write access to the data lake through a Lambda function → ensures consistency.
+These tasks require significant manual effort and expertise—and introduce risk if errors go undetected.
 
 ---
 
-## Front Door Microservice
+# How Amazon Bedrock Helps
 
-- Provides an API Gateway for external REST interaction  
-- Authentication & authorization based on **OIDC** via **Amazon Cognito**  
-- Self-managed *deduplication* mechanism using DynamoDB instead of SNS FIFO because:  
-  1. SNS deduplication TTL is only 5 minutes  
-  2. SNS FIFO requires SQS FIFO  
-  3. Ability to proactively notify the sender that the message is a duplicate  
+Amazon Bedrock can automate and optimize multiple migration steps using **generative AI**, reducing effort, time, and risk.
+
+### **Automated Schema & Code Conversion**
+
+Bedrock can analyze SQL Server or Oracle code and produce PostgreSQL-compatible:
+
+- Table definitions  
+- Stored procedures & functions  
+- Triggers  
+- Exception handling logic  
+
+### **AI-Driven Data Transformation**
+
+Bedrock models identify necessary adjustments for dates, numeric types, money types, and structural differences to match PostgreSQL.
+
+### **Code Compatibility Insights**
+
+Bedrock detects:
+
+- Unsupported SQL Server functions  
+- Oracle PL/SQL constructs  
+- Proprietary syntax  
+- Transaction behavior differences  
+
+…and suggests equivalent PostgreSQL alternatives.
+
+### **Intelligent Testing & Validation**
+
+Bedrock can generate:- Test cases  
+- Validation scripts  
+- Code coverage analysis  
+
+This ensures the converted code meets functional and performance requirements before production deployment.
+
+### **Prompt Engineering for Accuracy**
+
+Well-designed prompts can force Bedrock to:
+
+- Preserve naming conventions  
+- Follow PostgreSQL best practices  
+- Maintain business logic accuracy  
+- Reduce ambiguity  
+
+Iterative prompt refinement improves conversion accuracy and reduces manual rework.
 
 ---
 
-## Staging ER7 Microservice
+# Example: Converting SQL Server Procedure to PostgreSQL Function
 
-- Lambda “trigger” subscribed to the pub/sub hub, filtering messages by attribute  
-- Step Functions Express Workflow to convert ER7 → JSON  
-- Two Lambdas:  
-  1. Fix ER7 formatting (newline, carriage return)  
-  2. Parsing logic  
-- Result or error is pushed back into the pub/sub hub  
+Using Amazon Bedrock:
+
+1. Open **Amazon Bedrock Console → Playgrounds → Chat/Text**  
+2. Select **Anthropic → Claude 3.5 Sonnet**  
+3. Paste prompt asking Bedrock to convert SQL Server procedure to PostgreSQL function.
+
+Bedrock generates:
+
+- A PostgreSQL `plpgsql` function  
+- Equivalent logic  
+- Error handling using PostgreSQL conventions  
+- A full set of test cases covering:
+  - Valid updates  
+  - Invalid parameters  
+  - No eligible employees  
+  - Max increase cap  
+  - Percentage-based increase  
+  - Inactive employees  
+  - Insufficient tenure  
+  - Multiple employees  
+
+If the initial response changes naming conventions (e.g., lowercase or underscores), you can request Bedrock to regenerate while **preserving original naming**.
 
 ---
 
-## New Features in the Solution
+# Test Coverage Analysis
 
-### 1. AWS CloudFormation Cross-Stack References
-Example *outputs* in the core microservice:
-```yaml
-Outputs:
-  Bucket:
-    Value: !Ref Bucket
-    Export:
-      Name: !Sub ${AWS::StackName}-Bucket
-  ArtifactBucket:
-    Value: !Ref ArtifactBucket
-    Export:
-      Name: !Sub ${AWS::StackName}-ArtifactBucket
-  Topic:
-    Value: !Ref Topic
-    Export:
-      Name: !Sub ${AWS::StackName}-Topic
-  Catalog:
-    Value: !Ref Catalog
-    Export:
-      Name: !Sub ${AWS::StackName}-Catalog
-  CatalogArn:
-    Value: !GetAtt Catalog.Arn
-    Export:
-      Name: !Sub ${AWS::StackName}-CatalogArn
+Bedrock can also analyze the generated test cases and provide **coverage breakdown**, indicating which parts of the code are tested:
+
+- Input validation  
+- Salary calculation  
+- Eligibility rules  
+- Update operations  
+- Logging  
+- Exception handling  
+- Return result logic  
+
+Suggested additional tests may include:
+
+- Edge date conditions  
+- Large numeric values  
+- Simulated database errors  
+
+For full precision coverage, tools like **pgTAP** are recommended.
+
+---
+
+# Generating Supporting Database Objects
+
+Upon request, Bedrock can generate:
+
+- `CREATE TABLE` scripts (Employees, SalaryUpdateLog)  
+- Sample testing data  
+- Environment initialization scripts  
+
+This helps you fully reproduce the example function locally during migration testing.
+
+---
+
+# Automating Test Execution Across Source & Target
+
+You can integrate Bedrock APIs into a custom application to:
+
+- Run test cases against SQL Server (source) and PostgreSQL (target)  
+- Compare results automatically  
+- Identify logic discrepancies  
+- Measure performance differences  
+- Generate migration summary reports  
+
+This eliminates manual verification and accelerates modernization.
+
+AWS Database Migration Service (AWS DMS) Schema Conversion accelerators can also support migration and code conversion workflows.
+
+---
+
+# Conclusion
+
+AWS provides a powerful set of tools and services to modernize enterprise databases.  
+This blog demonstrated how Amazon Bedrock can:
+
+- Convert SQL Server/Oracle code to PostgreSQL  
+- Generate complete test cases  
+- Analyze code coverage  
+- Produce supporting schema and test data  
+- Improve accuracy through prompt refinement By incorporating Bedrock into your migration strategy, organizations can significantly reduce:
+
+- Migration time  
+- Operational cost  
+- Risk of logic or compatibility errors  
+
+To get started with Amazon Bedrock, refer to **Getting Started with Amazon Bedrock** in AWS documentation.
