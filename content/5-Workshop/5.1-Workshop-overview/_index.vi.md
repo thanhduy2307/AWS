@@ -1,19 +1,70 @@
 ---
-title : "Giới thiệu"
-date: 2025-11-11
-weight : 1
-chapter : false
-pre : " <b> 5.1. </b> "
+title: "Cấu hình Google Cloud & Cognito"
+date: 2025-12-09
+weight: 2
+chapter: false
+pre: " <b> 5.2. </b> "
 ---
 
-#### Giới thiệu về VPC Endpoint
+{{% notice info %}}
+⚙️ **Mục tiêu:** Thiết lập dự án trên Google Cloud Platform để lấy OAuth Credentials và cấu hình Amazon Cognito User Pool làm nơi quản lý định danh tập trung.
+{{% /notice %}}
 
-+ Điểm cuối VPC (endpoint) là thiết bị ảo. Chúng là các thành phần VPC có thể mở rộng theo chiều ngang, dự phòng và có tính sẵn sàng cao. Chúng cho phép giao tiếp giữa tài nguyên điện toán của bạn và dịch vụ AWS mà không gây ra rủi ro về tính sẵn sàng.
-+ Tài nguyên điện toán đang chạy trong VPC có thể truy cập Amazon S3 bằng cách sử dụng điểm cuối Gateway. Interface Endpoint  PrivateLink có thể được sử dụng bởi tài nguyên chạy trong VPC hoặc tại TTDL.
+# 1. Cấu hình Google Cloud Platform (GCP)
 
-#### Tổng quan về workshop
-Trong workshop này, bạn sẽ sử dụng hai VPC.
-+ **"VPC Cloud"** dành cho các tài nguyên cloud như Gateway endpoint và EC2 instance để kiểm tra.
-+ **"VPC On-Prem"** mô phỏng môi trường truyền thống như nhà máy hoặc trung tâm dữ liệu của công ty. Một EC2 Instance chạy phần mềm StrongSwan VPN đã được triển khai trong "VPC On-prem" và được cấu hình tự động để thiết lập đường hầm VPN Site-to-Site với AWS Transit Gateway. VPN này mô phỏng kết nối từ một vị trí tại TTDL (on-prem) với AWS cloud. Để giảm thiểu chi phí, chỉ một phiên bản VPN được cung cấp để hỗ trợ workshop này. Khi lập kế hoạch kết nối VPN cho production workloads của bạn, AWS khuyên bạn nên sử dụng nhiều thiết bị VPN để có tính sẵn sàng cao.
+Để cho phép người dùng đăng nhập bằng Gmail, trước tiên chúng ta cần tạo một dự án trên Google Cloud và xin cấp quyền OAuth 2.0.
 
-![overview](/images/5-Workshop/5.1-Workshop-overview/diagram1.png)
+### Bước 1: Tạo OAuth Client ID
+Tiếp theo, vào mục **Credentials** > **Create Credentials** > **OAuth client ID**.
+- **Application type:** Web application.
+- **Authorized redirect URIs:** Đây là địa chỉ mà Google sẽ trả token về sau khi đăng nhập thành công. (Địa chỉ này sẽ được lấy từ Amazon Cognito Domain ở bước sau).
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Màn hình tạo Client ID và Secret](images/gcp-credentials.png)
+> *Hình 5.2.2: Tạo OAuth Client ID và Client Secret.*
+
+{{% notice warning %}}
+Lưu ý: Cần copy lại **Client ID** và **Client Secret** để sử dụng cho cấu hình Cognito.
+{{% /notice %}}
+
+---
+
+# 2. Cấu hình Amazon Cognito User Pool
+
+Sau khi có thông tin từ Google, chúng ta chuyển sang AWS Console để thiết lập User Pool.
+
+### Bước 1: Tạo User Pool và Identity Provider
+Trong giao diện Amazon Cognito, tạo một User Pool mới. Tại phần **Sign-in experience**, chọn **Federated identity providers** và chọn **Google**.
+
+Chúng ta điền **Client ID** và **Client Secret** đã lấy từ bước trên vào đây.
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Cấu hình Google Identity Provider trong Cognito](images/cognito-idp-google.png)
+> *Hình 5.2.3: Nhập thông tin xác thực Google vào Cognito.*
+
+
+### Bước 2: Cấu hình App Client & Domain
+Cuối cùng, tại phần **App integration**:
+1.  **Domain:** Tạo một Cognito Domain. Domain này dùng để điền ngược lại vào phần *Authorized redirect URIs* bên Google Cloud.
+2.  **App Client Settings:**
+    - **Allowed callback URLs:** Đường dẫn Frontend của ứng dụng .
+    - **OAuth 2.0 Grant Types:** Chọn `Authorization code grant`.
+    - **OpenID Connect scopes:** Chọn `email`, `openid`, `profile`.
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Cấu hình App Client Settings](images/cognito-app-client.png)
+> *Hình 5.2.5: Cấu hình Redirect URL và OAuth Scopes.*
+
+---
+
+# 3. Kết quả kiểm thử (Hosted UI)
+
+Để kiểm tra cấu hình đã chính xác chưa, chúng ta có thể mở giao diện **Hosted UI** do Cognito cung cấp. Nếu nút "Continue with Google" xuất hiện và hoạt động, cấu hình đã thành công.
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Giao diện đăng nhập có nút Google](images/hosted-ui-login.png)
+> *Hình 5.2.6: Giao diện đăng nhập tích hợp Google thành công.*
