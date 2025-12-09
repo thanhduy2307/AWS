@@ -15,11 +15,11 @@ pre: " <b> 1.7. </b> "
 ### Tasks to Complete This Week:
 | Day | Tasks                                                                                                                                                                                   | Start Date | End Date | Resources                            |
 | --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| Tue   | - Review Secure Architectures: IAM, KMS, Security Groups, NACLs, Secrets Manager                                                                               | 20/10/2025   | 20/10/2025      |
-| Wed   | - Review Resilient Architectures: Multi-AZ, Auto Scaling, Route 53, DR Strategies                                            | 21/10/2025   | 21/10/2025      |  |
-| Thu   | - Review High-Performing Architectures: Lambda, Caching, CloudFront, EC2 Auto Scaling, S3 (Storage Tiering).   | 22/10/2025   | 22/10/2025      |  |
-| Fri   | - Continue reviewing High-Performing Architectures: Lambda, Caching, CloudFront, EC2 Auto Scaling, S3 (Storage Tiering).                  | 23/10/2025   | 23/10/2025      |  |
-| Sat   | - Rest and prepare mentally for the midterm exam                                                                                | 24/10/2025   | 24/10/2025      |  |
+| 2  | - Review Secure Architectures: IAM, KMS, Security Groups, NACLs, Secrets Manager                                                                               | 20/10/2025   | 20/10/2025      |
+| 3   | - Review Resilient Architectures: Multi-AZ, Auto Scaling, Route 53, DR Strategies                                            | 21/10/2025   | 21/10/2025      |  |
+| 4   | - Review High-Performing Architectures: Lambda, Caching, CloudFront, EC2 Auto Scaling, S3 (Storage Tiering).   | 22/10/2025   | 22/10/2025      |  |
+| 5   | - Continue reviewing High-Performing Architectures: Lambda, Caching, CloudFront, EC2 Auto Scaling, S3 (Storage Tiering).                  | 23/10/2025   | 23/10/2025      |  |
+| 6   | - Rest and prepare mentally for the midterm exam                                                                                | 24/10/2025   | 24/10/2025      |  |
 
 ### Week 7 Achievements:
 **Completed Review Plan:** Completed the in-depth review of all 4 pillars of the AWS Well-Architected Framework (Security, Reliability, Performance Efficiency, Cost Optimization) according to the schedule. 
