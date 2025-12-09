@@ -1,57 +1,50 @@
 ---
 title: "Week 11 Worklog"
-date: 2025-11-11
+date: 2025-12-02
 weight: 11
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
-{{% notice warning %}} 
-⚠️ **Note:** The following information is for reference purposes only. Please **do not copy verbatim** for your own report, including this warning.
+{{% notice warning %}}
+⚠️ **Note:** The content below is for reference only. Please **do not copy it verbatim** into your report.
 {{% /notice %}}
 
+### Week 11 Goals:
 
-### Week 11 Objectives:
+* Integrate frontend with backend using **AWS Amplify**.  
+* Use **Cognito** for authentication (login, JWT, API Key) in frontend.  
+* Integrate Lambda + Resend + API Gateway into frontend via Amplify API.  
+* Deploy full CI/CD automatically via **Amplify Console**.
 
-* Connect and get acquainted with members of First Cloud Journey.
-* Understand basic AWS services, how to use the console & CLI.
+---
 
-### Tasks to be carried out this week:
-| Day | Task                                                                                                                                                                                                   | Start Date | Completion Date | Reference Material                        |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ---------- | --------------- | ----------------------------------------- |
-| 2   | - Get acquainted with FCJ members <br> - Read and take note of internship unit rules and regulations                                                                          | 17/11/2025 | 17/11/2025      |
-| 3   | - Learn about AWS and its types of services <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                              | 18/11/2025 | 18/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Create AWS Free Tier account <br> - Learn about AWS Console & AWS CLI <br> - **Practice:** <br>&emsp; + Create AWS account <br>&emsp; + Install & configure AWS CLI <br> &emsp; + How to use AWS CLI | 19/11/2025 | 19/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Learn basic EC2: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - SSH connection methods to EC2 <br> - Learn about Elastic IP   <br>                            | 20/11/2025 | 20/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Practice:** <br>&emsp; + Launch an EC2 instance <br>&emsp; + Connect via SSH <br>&emsp; + Attach an EBS volume                                                                                     | 21/11/2025 | 21/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
+### Tasks for This Week:
 
+| Day | Tasks                                                                                                                                                                       | Start       | End         | Reference |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ---------- |
+| 2   | - Configure Amplify project <br>&emsp; + `amplify init` <br>&emsp; + Connect frontend (React/Vue/Angular) <br>&emsp; + Add Amplify Auth (Cognito User Pool)                  | 17/11/2025  | 17/11/2025  | AWS Amplify Docs |
+| 3   | - Integrate Lambda + Resend API via **Amplify API** <br>&emsp; + Create REST/GraphQL endpoint <br>&emsp; + Configure authentication using Cognito JWT/API Key               | 18/11/2025  | 18/11/2025  | Amplify Docs, Cognito Docs |
+| 4   | - Test frontend → Amplify API → Lambda → Resend <br>&emsp; + Verify Cognito login works <br>&emsp; + Send OTP/notification emails from frontend                              | 19/11/2025  | 19/11/2025  | Project Docs |
+| 5   | - Deploy CI/CD via **Amplify Console** <br>&emsp; + Connect GitHub/GitLab/CodeCommit repo <br>&emsp; + Auto build & deploy frontend + backend Lambda                         | 20/11/2025  | 20/11/2025  | Amplify Console Docs |
+| 6   | - Test end-to-end pipeline <br>&emsp; + Push code → Amplify auto deploy <br>&emsp; + Check frontend UI, API authentication, and email sending via Resend                     | 21/11/2025  | 21/11/2025  | CloudWatch Logs |
+
+---
 
 ### Week 11 Achievements:
 
-* Understood what AWS is and mastered the basic service groups: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Fully integrated **frontend with backend via Amplify**:
+  * Call Lambda + Resend API from frontend
+  * Cognito authentication (login, JWT, API Key) works
+  * OTP/verification/notification emails sent successfully
 
-* Successfully created and configured an AWS Free Tier account.
+* Deployed **fully automated CI/CD via Amplify Console**:
+  * Repo as source (GitHub/GitLab/CodeCommit)
+  * Auto build & deploy frontend + backend
+  * Production updated automatically on push
 
-* Became familiar with the AWS Management Console and learned how to find, access, and use services via the web interface.
+* End-to-end workflow tested:
+  **Frontend → Cognito Auth → Amplify API → Lambda → Resend → Email → Frontend displays notification**
 
-* Installed and configured AWS CLI on the computer, including:
-  * Access Key
-  * Secret Key
-  * Default Region
-  * ...
+* Learned how to integrate **serverless full-stack with Amplify + Cognito + Lambda + Resend** and CI/CD automation.
 
-* Used AWS CLI to perform basic operations such as:
-
-  * Check account & configuration information
-  * Retrieve the list of regions
-  * View EC2 service
-  * Create and manage key pairs
-  * Check information about running services
-  * ...
-
-* Acquired the ability to connect between the web interface and CLI to manage AWS resources in parallel.
-* ...
+* …
