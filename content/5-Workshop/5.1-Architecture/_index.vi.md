@@ -6,65 +6,61 @@ chapter: false
 pre: " <b> 5.1. </b> "
 ---
 
-{{% notice info %}}
-⚙️ **Mục tiêu:** Thiết lập dự án trên Google Cloud Platform để lấy OAuth Credentials và cấu hình Amazon Cognito User Pool làm nơi quản lý định danh tập trung.
+{{% notice note %}}
+📋 **Nội dung:** Phần này mô tả thiết kế High-level của hệ thống Aurora và chi tiết luồng xác thực người dùng thông qua Google (OAuth 2.0) kết hợp với Amazon Cognito.
 {{% /notice %}}
 
-# 1. Cấu hình Google Cloud Platform (GCP)
+# 1. Sơ đồ kiến trúc tổng quan (High-Level Architecture)
 
-Để cho phép người dùng đăng nhập bằng Gmail, trước tiên chúng ta cần tạo một dự án trên Google Cloud và xin cấp quyền OAuth 2.0.
+Hệ thống **Aurora** được thiết kế theo kiến trúc **Serverless** hoàn toàn trên AWS, giúp tối ưu chi phí vận hành và khả năng mở rộng. Hệ thống tích hợp với **Google Cloud Platform** để cung cấp trải nghiệm đăng nhập liền mạch (Single Sign-On).
 
-### Bước 1: Tạo OAuth Client ID
-Tiếp theo, vào mục **Credentials** > **Create Credentials** > **OAuth client ID**.
-- **Application type:** Web application.
-- **Authorized redirect URIs:** Đây là địa chỉ mà Google sẽ trả token về sau khi đăng nhập thành công. (Địa chỉ này sẽ được lấy từ Amazon Cognito Domain ở bước sau).
+![Sơ đồ kiến trúc Aurora](images/architecture.png)
+*(Lưu ý: Bạn hãy thay hình ảnh sơ đồ kiến trúc của bạn vào thư mục `images` và đặt tên là `architecture.png`)*
 
-> **Hình ảnh thực hiện:**
->
-> ![Screenshot: Màn hình tạo Client ID và Secret](images/gcp-credentials.png)
-> *Hình 5.2.2: Tạo OAuth Client ID và Client Secret.*
+### Các thành phần chính:
 
-{{% notice warning %}}
-Lưu ý: Cần copy lại **Client ID** và **Client Secret** để sử dụng cho cấu hình Cognito.
-{{% /notice %}}
+1.  **Frontend (Client):** Ứng dụng Web (SPA) nơi người dùng tương tác, xem lịch và tạo task.
+2.  **Authentication Layer:**
+    * **Google Cloud Project:** Cung cấp OAuth 2.0 Client ID/Secret để xác thực danh tính người dùng Gmail.
+    * **Amazon Cognito:** Đóng vai trò là Identity Provider (IdP) trung gian, quản lý User Pool và cấp phát AWS Credentials tạm thời cho Frontend.
+3.  **Backend Logic (Compute):**
+    * **AWS Lambda:** Chứa các hàm xử lý logic nghiệp vụ (Tạo sự kiện, Cập nhật task, Trigger gửi mail).
+4.  **Database:**
+    * **Amazon DynamoDB:** Lưu trữ dữ liệu Events và Daily Worklogs. Sử dụng Partition Key là `UserId` để đảm bảo dữ liệu người dùng được cô lập.
+5.  **Notification Service:**
+    * **Logic gửi Mail:** Được kích hoạt bởi Lambda khi có sự kiện mới hoặc đến giờ hẹn, sử dụng dịch vụ Email (SES/Gmail API) để gửi thông báo đến người dùng.
 
 ---
 
-# 2. Cấu hình Amazon Cognito User Pool
+# 2. Luồng xác thực (Authentication Flow)
 
-Sau khi có thông tin từ Google, chúng ta chuyển sang AWS Console để thiết lập User Pool.
+Đây là quy trình quan trọng nhất để đảm bảo chỉ người dùng đã đăng nhập mới có quyền truy cập vào dữ liệu cá nhân của họ. Chúng ta sử dụng mô hình **Cognito Federated Identities** kết hợp với **Google**.
 
-### Bước 1: Tạo User Pool và Identity Provider
-Trong giao diện Amazon Cognito, tạo một User Pool mới. Tại phần **Sign-in experience**, chọn **Federated identity providers** và chọn **Google**.
+### Chi tiết các bước xử lý:
 
-Chúng ta điền **Client ID** và **Client Secret** đã lấy từ bước trên vào đây.
-
-> **Hình ảnh thực hiện:**
->
-> ![Screenshot: Cấu hình Google Identity Provider trong Cognito](images/cognito-idp-google.png)
-> *Hình 5.2.3: Nhập thông tin xác thực Google vào Cognito.*
-
-
-### Bước 2: Cấu hình App Client & Domain
-Cuối cùng, tại phần **App integration**:
-1.  **Domain:** Tạo một Cognito Domain. Domain này dùng để điền ngược lại vào phần *Authorized redirect URIs* bên Google Cloud.
-2.  **App Client Settings:**
-    - **Allowed callback URLs:** Đường dẫn Frontend của ứng dụng .
-    - **OAuth 2.0 Grant Types:** Chọn `Authorization code grant`.
-    - **OpenID Connect scopes:** Chọn `email`, `openid`, `profile`.
-
-> **Hình ảnh thực hiện:**
->
-> ![Screenshot: Cấu hình App Client Settings](images/cognito-app-client.png)
-> *Hình 5.2.5: Cấu hình Redirect URL và OAuth Scopes.*
+1.  **User Login:** Người dùng bấm nút "Sign in with Google" trên Frontend.
+2.  **Google OAuth:** Frontend chuyển hướng người dùng sang trang đăng nhập của Google. Sau khi đăng nhập thành công, Google trả về một `Id Token` (JWT).
+3.  **Exchange Token:** Frontend gửi `Id Token` này đến **Amazon Cognito**.
+4.  **Verification & Session:** Amazon Cognito xác thực Token với Google. Nếu hợp lệ:
+    * Cognito tạo (hoặc cập nhật) hồ sơ người dùng trong User Pool.
+    * Cognito trả về bộ **AWS Temporary Credentials** (Access Key, Secret Key, Session Token) cho Frontend.
+5.  **Authorized Request:** Frontend dùng bộ Credentials này để gọi trực tiếp các API (thông qua API Gateway hoặc gọi thẳng Lambda/DynamoDB nếu dùng SDK) với quyền hạn được quy định trong IAM Role.
 
 ---
 
-# 3. Kết quả kiểm thử (Hosted UI)
+# 3. Luồng dữ liệu: Tạo Sự kiện & Gửi Mail
 
-Để kiểm tra cấu hình đã chính xác chưa, chúng ta có thể mở giao diện **Hosted UI** do Cognito cung cấp. Nếu nút "Continue with Google" xuất hiện và hoạt động, cấu hình đã thành công.
+Khi người dùng tạo một sự kiện mới (ví dụ: "Họp team lúc 9:00 AM"), luồng dữ liệu sẽ đi như sau:
 
-> **Hình ảnh thực hiện:**
->
-> ![Screenshot: Giao diện đăng nhập có nút Google](images/hosted-ui-login.png)
-> *Hình 5.2.6: Giao diện đăng nhập tích hợp Google thành công.*
+1.  **Frontend** gửi request POST chứa thông tin sự kiện đến API Endpoint.
+2.  **AWS Lambda** được kích hoạt (Trigger):
+    * Validate dữ liệu đầu vào.
+    * Ghi thông tin sự kiện vào bảng **DynamoDB** (Table: `AuroraEvents`).
+3.  **Email Notification Trigger:**
+    * Sau khi ghi DB thành công, Lambda tiếp tục gọi hàm gửi mail.
+    * Hệ thống cấu hình nội dung mail HTML.
+    * Gửi lệnh đến **Email Service** để chuyển thư tới hộp thư của người dùng.
+
+{{% notice tip %}}
+💡 **Điểm nổi bật:** Việc tích hợp Google Login giúp người dùng không cần nhớ thêm một mật khẩu mới cho hệ thống Aurora, đồng thời tận dụng được bảo mật 2 lớp từ Google.
+{{% /notice %}}
