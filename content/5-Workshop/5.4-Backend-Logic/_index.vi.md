@@ -1,5 +1,5 @@
 ---
-title: "Xây dựng API & Logic gửi Mail (3rd Party)"
+title: "Xây dựng API & Logic gửi Mail "
 date: 2025-12-09
 weight: 4
 chapter: false
