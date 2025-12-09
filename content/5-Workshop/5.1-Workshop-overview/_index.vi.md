@@ -1,9 +1,9 @@
 ---
 title: "Cấu hình Google Cloud & Cognito"
 date: 2025-12-09
-weight: 2
+weight: 1
 chapter: false
-pre: " <b> 5.2. </b> "
+pre: " <b> 5.1. </b> "
 ---
 
 {{% notice info %}}
