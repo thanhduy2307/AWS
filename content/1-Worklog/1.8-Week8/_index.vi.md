@@ -5,55 +5,55 @@ weight: 8
 chapter: false
 pre: " <b> 1.8. </b> "
 ---
-{{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
-{{% /notice %}}
 
 
 ### Mục tiêu tuần 8:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Bắt đầu triển khai project thực tế sử dụng các dịch vụ serverless của AWS.
+* Xây dựng backend cơ bản sử dụng DynamoDB, Lambda và API Gateway.
+* Đăng ký domain và cấu hình DNS để chuẩn bị cho việc public API.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                                             | 27/10/2025   |27/10/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 28/10/2025   | 28/10/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 29/10/2025   | 29/10/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 30/10/2025   | 30/10/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 31/10/2025   | 31/10/2025      | <https://cloudjourney.awsstudygroup.com/> |
+---
 
+### Các công việc triển khai trong tuần này:
+
+| Thứ | Công việc                                                                                                                                              | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------ | --------------- | -------------- |
+| 2   | - Phân tích yêu cầu project <br>- Xác định workflow backend: API Gateway → Lambda → DynamoDB                                                          | 27/10/2025   | 27/10/2025      |  |
+| 3   | - Bắt đầu tạo DynamoDB Table <br>&emsp; + Tạo bảng (Partition key) <br>&emsp; + Thêm Item dữ liệu mẫu                                                | 28/10/2025   | 28/10/2025      |  |
+| 4   | - Đăng ký domain bằng Route 53 <br>&emsp; + Mua domain <br>&emsp; + Tạo Public Hosted Zone <br>&emsp; + Tạo record A/CNAME để chuẩn bị routing       | 29/10/2025   | 29/10/2025      |  |
+| 5   | - Viết Lambda function cho API <br>&emsp; + Xử lý CRUD cơ bản với DynamoDB SDK <br>&emsp; + Tạo IAM Role cho Lambda                                  | 30/10/2025   | 30/10/2025      |  |
+| 6   | - Tạo API Gateway & tích hợp Lambda <br>&emsp; + Tạo REST API <br>&emsp; + Tạo method GET/POST <br>&emsp; + Deploy stage <br>&emsp; + Test API       | 31/10/2025   | 31/10/2025      |  |
+
+---
 
 ### Kết quả đạt được tuần 8:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Hoàn thành việc **tạo DynamoDB Table** phục vụ cho project:
+  * Tạo bảng với Partition Key phù hợp
+  * Thêm dữ liệu mẫu để kiểm tra workflow
+  * Test Query/Scan để đảm bảo tính đúng đắn
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Đăng ký thành công **domain Route 53**, bao gồm:
+  * Tạo Hosted Zone
+  * Tạo các bản ghi DNS cơ bản
+  * Kiểm tra domain propagation
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Triển khai được **Lambda function** cho backend:
+  * Code logic xử lý yêu cầu (GET, POST)
+  * Tích hợp với DynamoDB thông qua SDK
+  * Phân quyền chính xác bằng IAM Role
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Xây dựng và cấu hình **API Gateway**:
+  * Tạo REST API + Resource + Method
+  * Kết nối Lambda thông qua Lambda Proxy
+  * Deploy stage (dev)
+  * Test và gọi API thành công qua endpoint
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+* Kết nối trọn vẹn workflow:
+  **Client → API Gateway → Lambda → DynamoDB**
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
+* Hiểu rõ pipeline serverless thực tế và cách liên kết các dịch vụ lại thành backend hoàn chỉnh.
 
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
+* …
 
