@@ -1,5 +1,5 @@
 ---
-title: "5.4.1 - CRUD Sự kiện (Event Handler)"
+title: " CRUD Sự kiện (Event Handler)"
 date: 2025-12-09
 weight: 1
 chapter: false
