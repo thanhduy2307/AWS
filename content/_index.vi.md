@@ -25,7 +25,7 @@ chapter: false
 
 &emsp; **Thời gian thực tập:** Từ ngày 8/09/2025 đến ngày 27/11/2025
 
-![Ảnh đại diện của bạn](images/avartar.png)
+![Ảnh đại diện của bạn](/AWS/images/avartar.png)
 
 
 
