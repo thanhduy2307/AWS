@@ -1,242 +1,70 @@
 ---
-title : "Các bước chuẩn bị"
-date: 2025-11-11
-weight : 2
-chapter : false
-pre : " <b> 5.2. </b> "
+title: "Kiến trúc hệ thống & Luồng xác thực (Auth Flow)"
+date: 2025-12-09
+weight: 1
+chapter: false
+pre: " <b> 5.1. </b> "
 ---
 
-#### IAM permissions
-Gắn IAM permission policy sau vào tài khoản aws user của bạn để triển khai và dọn dẹp tài nguyên trong workshop này.
-```
-{
-    "Version": "2012-10-17",
-    "Statement": [
-        {
-            "Sid": "VisualEditor0",
-            "Effect": "Allow",
-            "Action": [
-                "cloudformation:*",
-                "cloudwatch:*",
-                "ec2:AcceptTransitGatewayPeeringAttachment",
-                "ec2:AcceptTransitGatewayVpcAttachment",
-                "ec2:AllocateAddress",
-                "ec2:AssociateAddress",
-                "ec2:AssociateIamInstanceProfile",
-                "ec2:AssociateRouteTable",
-                "ec2:AssociateSubnetCidrBlock",
-                "ec2:AssociateTransitGatewayRouteTable",
-                "ec2:AssociateVpcCidrBlock",
-                "ec2:AttachInternetGateway",
-                "ec2:AttachNetworkInterface",
-                "ec2:AttachVolume",
-                "ec2:AttachVpnGateway",
-                "ec2:AuthorizeSecurityGroupEgress",
-                "ec2:AuthorizeSecurityGroupIngress",
-                "ec2:CreateClientVpnEndpoint",
-                "ec2:CreateClientVpnRoute",
-                "ec2:CreateCustomerGateway",
-                "ec2:CreateDhcpOptions",
-                "ec2:CreateFlowLogs",
-                "ec2:CreateInternetGateway",
-                "ec2:CreateLaunchTemplate",
-                "ec2:CreateNetworkAcl",
-                "ec2:CreateNetworkInterface",
-                "ec2:CreateNetworkInterfacePermission",
-                "ec2:CreateRoute",
-                "ec2:CreateRouteTable",
-                "ec2:CreateSecurityGroup",
-                "ec2:CreateSubnet",
-                "ec2:CreateSubnetCidrReservation",
-                "ec2:CreateTags",
-                "ec2:CreateTransitGateway",
-                "ec2:CreateTransitGatewayPeeringAttachment",
-                "ec2:CreateTransitGatewayPrefixListReference",
-                "ec2:CreateTransitGatewayRoute",
-                "ec2:CreateTransitGatewayRouteTable",
-                "ec2:CreateTransitGatewayVpcAttachment",
-                "ec2:CreateVpc",
-                "ec2:CreateVpcEndpoint",
-                "ec2:CreateVpcEndpointConnectionNotification",
-                "ec2:CreateVpcEndpointServiceConfiguration",
-                "ec2:CreateVpnConnection",
-                "ec2:CreateVpnConnectionRoute",
-                "ec2:CreateVpnGateway",
-                "ec2:DeleteCustomerGateway",
-                "ec2:DeleteFlowLogs",
-                "ec2:DeleteInternetGateway",
-                "ec2:DeleteNetworkInterface",
-                "ec2:DeleteNetworkInterfacePermission",
-                "ec2:DeleteRoute",
-                "ec2:DeleteRouteTable",
-                "ec2:DeleteSecurityGroup",
-                "ec2:DeleteSubnet",
-                "ec2:DeleteSubnetCidrReservation",
-                "ec2:DeleteTags",
-                "ec2:DeleteTransitGateway",
-                "ec2:DeleteTransitGatewayPeeringAttachment",
-                "ec2:DeleteTransitGatewayPrefixListReference",
-                "ec2:DeleteTransitGatewayRoute",
-                "ec2:DeleteTransitGatewayRouteTable",
-                "ec2:DeleteTransitGatewayVpcAttachment",
-                "ec2:DeleteVpc",
-                "ec2:DeleteVpcEndpoints",
-                "ec2:DeleteVpcEndpointServiceConfigurations",
-                "ec2:DeleteVpnConnection",
-                "ec2:DeleteVpnConnectionRoute",
-                "ec2:Describe*",
-                "ec2:DetachInternetGateway",
-                "ec2:DisassociateAddress",
-                "ec2:DisassociateRouteTable",
-                "ec2:GetLaunchTemplateData",
-                "ec2:GetTransitGatewayAttachmentPropagations",
-                "ec2:ModifyInstanceAttribute",
-                "ec2:ModifySecurityGroupRules",
-                "ec2:ModifyTransitGatewayVpcAttachment",
-                "ec2:ModifyVpcAttribute",
-                "ec2:ModifyVpcEndpoint",
-                "ec2:ReleaseAddress",
-                "ec2:ReplaceRoute",
-                "ec2:RevokeSecurityGroupEgress",
-                "ec2:RevokeSecurityGroupIngress",
-                "ec2:RunInstances",
-                "ec2:StartInstances",
-                "ec2:StopInstances",
-                "ec2:UpdateSecurityGroupRuleDescriptionsEgress",
-                "ec2:UpdateSecurityGroupRuleDescriptionsIngress",
-                "iam:AddRoleToInstanceProfile",
-                "iam:AttachRolePolicy",
-                "iam:CreateInstanceProfile",
-                "iam:CreatePolicy",
-                "iam:CreateRole",
-                "iam:DeleteInstanceProfile",
-                "iam:DeletePolicy",
-                "iam:DeleteRole",
-                "iam:DeleteRolePolicy",
-                "iam:DetachRolePolicy",
-                "iam:GetInstanceProfile",
-                "iam:GetPolicy",
-                "iam:GetRole",
-                "iam:GetRolePolicy",
-                "iam:ListPolicyVersions",
-                "iam:ListRoles",
-                "iam:PassRole",
-                "iam:PutRolePolicy",
-                "iam:RemoveRoleFromInstanceProfile",
-                "lambda:CreateFunction",
-                "lambda:DeleteFunction",
-                "lambda:DeleteLayerVersion",
-                "lambda:GetFunction",
-                "lambda:GetLayerVersion",
-                "lambda:InvokeFunction",
-                "lambda:PublishLayerVersion",
-                "logs:CreateLogGroup",
-                "logs:DeleteLogGroup",
-                "logs:DescribeLogGroups",
-                "logs:PutRetentionPolicy",
-                "route53:ChangeTagsForResource",
-                "route53:CreateHealthCheck",
-                "route53:CreateHostedZone",
-                "route53:CreateTrafficPolicy",
-                "route53:DeleteHostedZone",
-                "route53:DisassociateVPCFromHostedZone",
-                "route53:GetHostedZone",
-                "route53:ListHostedZones",
-                "route53domains:ListDomains",
-                "route53domains:ListOperations",
-                "route53domains:ListTagsForDomain",
-                "route53resolver:AssociateResolverEndpointIpAddress",
-                "route53resolver:AssociateResolverRule",
-                "route53resolver:CreateResolverEndpoint",
-                "route53resolver:CreateResolverRule",
-                "route53resolver:DeleteResolverEndpoint",
-                "route53resolver:DeleteResolverRule",
-                "route53resolver:DisassociateResolverEndpointIpAddress",
-                "route53resolver:DisassociateResolverRule",
-                "route53resolver:GetResolverEndpoint",
-                "route53resolver:GetResolverRule",
-                "route53resolver:ListResolverEndpointIpAddresses",
-                "route53resolver:ListResolverEndpoints",
-                "route53resolver:ListResolverRuleAssociations",
-                "route53resolver:ListResolverRules",
-                "route53resolver:ListTagsForResource",
-                "route53resolver:UpdateResolverEndpoint",
-                "route53resolver:UpdateResolverRule",
-                "s3:AbortMultipartUpload",
-                "s3:CreateBucket",
-                "s3:DeleteBucket",
-                "s3:DeleteObject",
-                "s3:GetAccountPublicAccessBlock",
-                "s3:GetBucketAcl",
-                "s3:GetBucketOwnershipControls",
-                "s3:GetBucketPolicy",
-                "s3:GetBucketPolicyStatus",
-                "s3:GetBucketPublicAccessBlock",
-                "s3:GetObject",
-                "s3:GetObjectVersion",
-                "s3:GetBucketVersioning",
-                "s3:ListAccessPoints",
-                "s3:ListAccessPointsForObjectLambda",
-                "s3:ListAllMyBuckets",
-                "s3:ListBucket",
-                "s3:ListBucketMultipartUploads",
-                "s3:ListBucketVersions",
-                "s3:ListJobs",
-                "s3:ListMultipartUploadParts",
-                "s3:ListMultiRegionAccessPoints",
-                "s3:ListStorageLensConfigurations",
-                "s3:PutAccountPublicAccessBlock",
-                "s3:PutBucketAcl",
-                "s3:PutBucketPolicy",
-                "s3:PutBucketPublicAccessBlock",
-                "s3:PutObject",
-                "secretsmanager:CreateSecret",
-                "secretsmanager:DeleteSecret",
-                "secretsmanager:DescribeSecret",
-                "secretsmanager:GetSecretValue",
-                "secretsmanager:ListSecrets",
-                "secretsmanager:ListSecretVersionIds",
-                "secretsmanager:PutResourcePolicy",
-                "secretsmanager:TagResource",
-                "secretsmanager:UpdateSecret",
-                "sns:ListTopics",
-                "ssm:DescribeInstanceProperties",
-                "ssm:DescribeSessions",
-                "ssm:GetConnectionStatus",
-                "ssm:GetParameters",
-                "ssm:ListAssociations",
-                "ssm:ResumeSession",
-                "ssm:StartSession",
-                "ssm:TerminateSession"
-            ],
-            "Resource": "*"
-        }
-    ]
-}
+{{% notice info %}}
+⚙️ **Mục tiêu:** Thiết lập dự án trên Google Cloud Platform để lấy OAuth Credentials và cấu hình Amazon Cognito User Pool làm nơi quản lý định danh tập trung.
+{{% /notice %}}
 
-```
+# 1. Cấu hình Google Cloud Platform (GCP)
 
-#### Khởi tạo tài nguyên bằng CloudFormation
+Để cho phép người dùng đăng nhập bằng Gmail, trước tiên chúng ta cần tạo một dự án trên Google Cloud và xin cấp quyền OAuth 2.0.
 
-Trong lab này, chúng ta sẽ dùng N.Virginia region (us-east-1).
+### Bước 1: Tạo OAuth Client ID
+Tiếp theo, vào mục **Credentials** > **Create Credentials** > **OAuth client ID**.
+- **Application type:** Web application.
+- **Authorized redirect URIs:** Đây là địa chỉ mà Google sẽ trả token về sau khi đăng nhập thành công. (Địa chỉ này sẽ được lấy từ Amazon Cognito Domain ở bước sau).
 
-Để chuẩn bị cho môi trường làm workshop, chúng ta deploy CloudFormation template sau (click link): [PrivateLinkWorkshop ](https://us-east-1.console.aws.amazon.com/cloudformation/home?region=us-east-1#/stacks/quickcreate?templateURL=https://s3.us-east-1.amazonaws.com/reinvent-endpoints-builders-session/Nested.yaml&stackName=PLCloudSetup). Để nguyên các lựa chọn mặc định.
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Màn hình tạo Client ID và Secret](images/gcp-credentials.png)
+> *Hình 5.2.2: Tạo OAuth Client ID và Client Secret.*
 
-![create stack](/images/5-Workshop/5.2-Prerequisite/create-stack1.png)
+{{% notice warning %}}
+Lưu ý: Cần copy lại **Client ID** và **Client Secret** để sử dụng cho cấu hình Cognito.
+{{% /notice %}}
 
-+ Lựa chọn 2 mục acknowledgement 
-+ Chọn Create stack
+---
 
-![create stack](/images/5-Workshop/5.2-Prerequisite/create-stack2.png)
+# 2. Cấu hình Amazon Cognito User Pool
 
-Quá trình triển khai CloudFormation cần khoảng 15 phút để hoàn thành.
+Sau khi có thông tin từ Google, chúng ta chuyển sang AWS Console để thiết lập User Pool.
 
-![complete](/images/5-Workshop/5.2-Prerequisite/complete.png)
+### Bước 1: Tạo User Pool và Identity Provider
+Trong giao diện Amazon Cognito, tạo một User Pool mới. Tại phần **Sign-in experience**, chọn **Federated identity providers** và chọn **Google**.
 
-+ 2 VPCs đã được tạo
+Chúng ta điền **Client ID** và **Client Secret** đã lấy từ bước trên vào đây.
 
-![vpcs](/images/5-Workshop/5.2-Prerequisite/vpcs.png)
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Cấu hình Google Identity Provider trong Cognito](images/cognito-idp-google.png)
+> *Hình 5.2.3: Nhập thông tin xác thực Google vào Cognito.*
 
-+ 3 EC2s đã được tạo
 
-![EC2](/images/5-Workshop/5.2-Prerequisite/ec2.png)
+### Bước 2: Cấu hình App Client & Domain
+Cuối cùng, tại phần **App integration**:
+1.  **Domain:** Tạo một Cognito Domain. Domain này dùng để điền ngược lại vào phần *Authorized redirect URIs* bên Google Cloud.
+2.  **App Client Settings:**
+    - **Allowed callback URLs:** Đường dẫn Frontend của ứng dụng .
+    - **OAuth 2.0 Grant Types:** Chọn `Authorization code grant`.
+    - **OpenID Connect scopes:** Chọn `email`, `openid`, `profile`.
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Cấu hình App Client Settings](images/cognito-app-client.png)
+> *Hình 5.2.5: Cấu hình Redirect URL và OAuth Scopes.*
+
+---
+
+# 3. Kết quả kiểm thử (Hosted UI)
+
+Để kiểm tra cấu hình đã chính xác chưa, chúng ta có thể mở giao diện **Hosted UI** do Cognito cung cấp. Nếu nút "Continue with Google" xuất hiện và hoạt động, cấu hình đã thành công.
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Giao diện đăng nhập có nút Google](images/hosted-ui-login.png)
+> *Hình 5.2.6: Giao diện đăng nhập tích hợp Google thành công.*
