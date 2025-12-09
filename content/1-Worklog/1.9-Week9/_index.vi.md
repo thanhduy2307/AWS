@@ -1,59 +1,54 @@
 ---
 title: "Worklog Tuần 9"
-date: 2025-11-11
+date: 2025-11-18
 weight: 9
 chapter: false
 pre: " <b> 1.9. </b> "
 ---
 {{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
+⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo. Vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn, bao gồm cả dòng cảnh báo này.
 {{% /notice %}}
-
 
 ### Mục tiêu tuần 9:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Tích hợp Google Authentication vào Amazon Cognito để cho phép người dùng đăng nhập bằng Google.
+* Cấu hình dịch vụ Amazon SES để gửi email (notification, verification, OTP…).
+* Kiểm tra end-to-end flow: user login → Cognito → nhận email từ SES.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                            | 03/11/2025  | 03/11/2025    
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 04/11/2025   | 04/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 05/11/2025   | 05/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  |  06/11/2025   | 06/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 07/11/2025   | 07/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
+---
 
+### Các công việc triển khai trong tuần này:
+
+| Thứ | Công việc                                                                                                                                                       | Bắt đầu | Hoàn thành | Nguồn |
+| --- | --------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------- | ---------- | ------ |
+| 2   | - Chuẩn bị môi trường Cognito <br> - Tạo User Pool & App Client mới cho Google Login                                                                           | 03/11/2025 | 03/11/2025 |  |
+| 3   | - Cấu hình Google OAuth: <br>&emsp; + Tạo OAuth Client ID trong Google Cloud Platform <br>&emsp; + Lấy Client ID & Client Secret                                | 04/11/2025 | 04/11/2025 |  |
+| 4   | - Tích hợp Google vào Cognito: <br>&emsp; + Tạo Identity Provider (IdP) Google <br>&emsp; + Mapping attributes (email, name) <br>&emsp; + Kiểm tra login flow | 05/11/2025 | 05/11/2025 |  |
+| 5   | - Thiết lập Amazon SES: <br>&emsp; + Verify domain <br>&emsp; + Verify email sender <br>&emsp; + Cấu hình DKIM <br>&emsp; + Chuyển SES ra khỏi Sandbox          | 06/11/2025 | 06/11/2025 |  |
+| 6   | - Tạo Lambda gửi mail qua SES <br>&emsp; + Tích hợp API Gateway để gửi mail <br>&emsp; + Test gửi email qua REST API                                           | 07/11/2025 | 07/11/2025 |  |
+
+---
 
 ### Kết quả đạt được tuần 9:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Tích hợp thành công **Google Login** vào Amazon Cognito:
+  * Tạo User Pool + App Client
+  * Tạo Google OAuth Credential trên GCP
+  * Liên kết Google IdP vào Cognito
+  * Đăng nhập bằng Google thành công và nhận được token từ Cognito
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Cấu hình hoàn chỉnh **Amazon SES**:
+  * Verify domain + email
+  * Enable DKIM để tăng độ tin cậy email
+  * Gửi email thành công sau khi rời khỏi SES Sandbox
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Viết Lambda để **gửi email tự động qua SES**:
+  * Hỗ trợ gửi email thông báo / OTP / verification
+  * Tích hợp API Gateway để gửi mail qua HTTP request
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Kiểm tra toàn bộ workflow:
+  **Login bằng Google → Cognito xác thực → Lambda xử lý → SES gửi email**
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
+* Hiểu rõ quy trình tích hợp OAuth bên thứ 3 & thiết lập email service trong AWS.
 
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* …
