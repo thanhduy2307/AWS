@@ -1,5 +1,5 @@
 ---
-title: "Cấu hình Google Cloud & Cognito"
+title: "Kiến trúc hệ thống & Luồng xác thực (Auth Flow)"
 date: 2025-12-09
 weight: 1
 chapter: false
