@@ -43,6 +43,7 @@ We need to grant full read/write permissions on the `events` table.
         }
     ]
 }
+
 ** JSON Policy (CRUD permissions for DynamoDB events table)
 {
 	"Version": "2012-10-17",
@@ -61,6 +62,7 @@ We need to grant full read/write permissions on the `events` table.
 		}
 	]
 }
+```
 # Step 3: Processing code (Node.js)
 Back to the Lambda Function interface, we will write Node.js code to process CRUD operations.
 After completing, click **Deploy** to save.
