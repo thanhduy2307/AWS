@@ -1,18 +1,82 @@
 ---
-title : "Truy cập S3 từ VPC"
-date: 2025-11-11
-weight : 3
-chapter : false
-pre : " <b> 5.3. </b> "
+title: "Thiết kế Database (DynamoDB)"
+date: 2025-12-09
+weight: 3
+chapter: false
+pre: " <b> 5.3. </b> "
 ---
 
-#### Sử dụng Gateway endpoint
+{{% notice info %}}
+🗄️ **Mục tiêu:** Thiết kế cơ sở dữ liệu NoSQL với Amazon DynamoDB để lưu trữ Sự kiện (Events) và Công việc (Todo), tối ưu hóa cho truy xuất nhanh và chi phí thấp.
+{{% /notice %}}
 
-Trong phần này, bạn sẽ tạo một Gateway endpoint để truy cập Amazon S3 từ một EC2 instance. Gateway endpoint sẽ cho phép tải một object lên S3 bucket mà không cần sử dụng Internet Công cộng. Để tạo endpoint, bạn phải chỉ định VPC mà bạn muốn tạo endpoint và dịch vụ (trong trường hợp này là S3) mà bạn muốn thiết lập kết nối.
+# 1. Tại sao chọn Amazon DynamoDB?
 
-![overview](/images/5-Workshop/5.3-S3-vpc/diagram2.png)
+Với kiến trúc Serverless của dự án Aurora, **Amazon DynamoDB** là sự lựa chọn tối ưu vì:
+* **Serverless:** Không cần quản lý máy chủ, tự động mở rộng (Auto-scaling) theo lưu lượng truy cập.
+* **Hiệu năng cao:** Độ trễ thấp (single-digit millisecond), phù hợp cho các thao tác thời gian thực trên giao diện người dùng.
+* **Linh hoạt (Schemaless):** Dễ dàng thay đổi cấu trúc dữ liệu (thêm trường mới cho Event/Todo) mà không cần migration phức tạp như SQL.
 
-#### Nội dung
+---
 
-- [Tạo gateway endpoint](3.1-create-gwe/)
-- [Test gateway endpoint](3.2-test-gwe/)
+# 2. Thiết kế Schema (Data Modeling)
+
+Hệ thống sử dụng mô hình **Per-User Isolation**. Mỗi item (bản ghi) đều gắn liền với một `userId` (Lấy từ Cognito/Google Token) để đảm bảo bảo mật.
+
+Chúng ta sẽ tạo 2 bảng (Tables) chính:
+
+### Bảng 1: AuroraEvents (Lưu trữ lịch trình)
+Bảng này lưu các sự kiện lịch, phục vụ cho việc hiển thị trên Calendar và quét để gửi thông báo.
+
+* **Partition Key (PK):** `userId` (String) - Định danh người dùng.
+* **Sort Key (SK):** `eventId` (String) - UUID của sự kiện.
+
+### Bảng 2: AuroraTasks (Lưu trữ công việc hàng ngày)
+Bảng này lưu danh sách Daily Worklog (To-do list).
+
+* **Partition Key (PK):** `userId` (String).
+* **Sort Key (SK):** `todoId` (String) - UUID của công việc.
+
+### Bảng 3: users (Lưu trữ thông tin người dùng)
+Bảng này lưu thông tin chi tiết về người dùng.
+
+* **Partition Key (PK):** `userId` (String).
+---
+
+# 3. Các bước khởi tạo trên AWS Console
+
+Dưới đây là quy trình tạo bảng trên giao diện AWS.
+
+### Bước 1: Tạo bảng Events
+Truy cập **DynamoDB** > **Tables** > **Create table**.
+* **Table name:** `events`
+* **Partition key:** `userId` (String)
+* **Sort key:** `eventId` (String)
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Màn hình tạo bảng AuroraEvents](images/dynamodb-create-event.png)
+> 
+
+### Bước 2: Tạo bảng Tasks
+Tương tự, tạo bảng thứ hai cho Task.
+* **Table name:** `todo`
+* **Partition key:** `userId` (String)
+* **Sort key:** `todoId` (String)
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Màn hình tạo bảng AuroraTasks](images/dynamodb-create-task.png)
+> 
+>
+> ### Bước 3: Tạo bảng Users
+Tương tự, tạo bảng thứ ba cho User.
+* **Table name:** `users`
+* **Partition key:** `userId` (String)
+
+> **Hình ảnh thực hiện:**
+>
+> ![Screenshot: Màn hình tạo bảng AuroraTasks](images/dynamodb-create-task.png)
+> 
+
+}
