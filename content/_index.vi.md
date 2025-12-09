@@ -7,7 +7,7 @@ chapter: false
 
 # Báo cáo thực tập
 ### Thông tin sinh viên:
-&emsp; **Họ và tên:** Trương Thanh Duy
+&emsp; **Họ và tên:** Trương Thanh Duy nè
 
 &emsp; **Số điện thoại:** 0357896187    
 
