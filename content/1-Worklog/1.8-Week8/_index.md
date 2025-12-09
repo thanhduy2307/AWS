@@ -21,11 +21,11 @@ pre: " <b> 1.8. </b> "
 
 | Day | Tasks                                                                                                                                                             | Start Date   | Completion Date | Reference       |
 | --- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | ---------------- | ---------------- |
-| 2   | - Analyze project requirements <br>- Define backend workflow: API Gateway → Lambda → DynamoDB                                                                     | 27/10/2025   | 27/10/2025       | https://cloudjourney.awsstudygroup.com/ |
-| 3   | - Create DynamoDB Table <br>&emsp; + Define Partition Key <br>&emsp; + Insert sample items                                                                        | 28/10/2025   | 28/10/2025       | https://cloudjourney.awsstudygroup.com/ |
-| 4   | - Register domain via Route 53 <br>&emsp; + Purchase domain <br>&emsp; + Create Public Hosted Zone <br>&emsp; + Add A/CNAME records for routing setup            | 29/10/2025   | 29/10/2025       | https://cloudjourney.awsstudygroup.com/ |
-| 5   | - Write Lambda functions for API <br>&emsp; + Implement CRUD operations with DynamoDB SDK <br>&emsp; + Create IAM Role for Lambda                                | 30/10/2025   | 30/10/2025       | https://cloudjourney.awsstudygroup.com/ |
-| 6   | - Create API Gateway & integrate with Lambda <br>&emsp; + Set up REST API <br>&emsp; + Add GET/POST methods <br>&emsp; + Deploy stage <br>&emsp; + Test endpoint | 31/10/2025   | 31/10/2025       | https://cloudjourney.awsstudygroup.com/ |
+| 2   | - Analyze project requirements <br>- Define backend workflow: API Gateway → Lambda → DynamoDB                                                                     | 27/10/2025   | 27/10/2025       |  |
+| 3   | - Create DynamoDB Table <br>&emsp; + Define Partition Key <br>&emsp; + Insert sample items                                                                        | 28/10/2025   | 28/10/2025       | |
+| 4   | - Register domain via Route 53 <br>&emsp; + Purchase domain <br>&emsp; + Create Public Hosted Zone <br>&emsp; + Add A/CNAME records for routing setup            | 29/10/2025   | 29/10/2025       ||
+| 5   | - Write Lambda functions for API <br>&emsp; + Implement CRUD operations with DynamoDB SDK <br>&emsp; + Create IAM Role for Lambda                                | 30/10/2025   | 30/10/2025       | |
+| 6   | - Create API Gateway & integrate with Lambda <br>&emsp; + Set up REST API <br>&emsp; + Add GET/POST methods <br>&emsp; + Deploy stage <br>&emsp; + Test endpoint | 31/10/2025   | 31/10/2025       |  |
 
 ---
 
