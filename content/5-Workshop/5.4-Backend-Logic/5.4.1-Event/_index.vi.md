@@ -61,6 +61,7 @@ Chúng ta cần cấp toàn quyền cloudWatch trên bảng `events`.
 		}
 	]
 }
-# Bước 3: Code xử lý (Node.js) 
+```
+## Bước 3: Code xử lý (Node.js) 
 Quay trở lại giao diện Lambda Function, chúng ta sẽ viết code Node.js để xử lý các thao tác CRUD.
 Sau khi hoàn thành, bấm **Deploy** để lưu lại.
