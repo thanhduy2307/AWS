@@ -1,59 +1,50 @@
 ---
 title: "Worklog Tuần 11"
-date: 2025-11-11
+date: 2025-12-02
 weight: 11
 chapter: false
 pre: " <b> 1.11. </b> "
 ---
 {{% notice warning %}}
-⚠️ **Lưu ý:** Các thông tin dưới đây chỉ nhằm mục đích tham khảo, vui lòng **không sao chép nguyên văn** cho bài báo cáo của bạn kể cả warning này.
+⚠️ **Lưu ý:** Nội dung dưới đây chỉ mang tính tham khảo. Vui lòng **không sao chép nguyên văn** vào báo cáo.
 {{% /notice %}}
-
 
 ### Mục tiêu tuần 11:
 
-* Kết nối, làm quen với các thành viên trong First Cloud Journey.
-* Hiểu dịch vụ AWS cơ bản, cách dùng console & CLI.
+* Tích hợp frontend với backend qua **AWS Amplify**.  
+* Sử dụng **Cognito** để quản lý authentication cho frontend (login, JWT, API Key).  
+* Tích hợp Lambda + Resend + API Gateway vào frontend thông qua Amplify API.  
+* Triển khai CI/CD tự động qua **Amplify Console**.
 
-### Các công việc cần triển khai trong tuần này:
-| Thứ | Công việc                                                                                                                                                                                   | Ngày bắt đầu | Ngày hoàn thành | Nguồn tài liệu                            |
-| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------ | --------------- | ----------------------------------------- |
-| 2   | - Làm quen với các thành viên FCJ <br> - Đọc và lưu ý các nội quy, quy định tại đơn vị thực tập                                                                        | 17/11/2025   | 17/11/2025      |
-| 3   | - Tìm hiểu AWS và các loại dịch vụ <br>&emsp; + Compute <br>&emsp; + Storage <br>&emsp; + Networking <br>&emsp; + Database <br>&emsp; + ... <br>                                            | 18/11/2025   | 18/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 4   | - Tạo AWS Free Tier account <br> - Tìm hiểu AWS Console & AWS CLI <br> - **Thực hành:** <br>&emsp; + Tạo AWS account <br>&emsp; + Cài AWS CLI & cấu hình <br> &emsp; + Cách sử dụng AWS CLI | 19/11/2025   | 19/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 5   | - Tìm hiểu EC2 cơ bản: <br>&emsp; + Instance types <br>&emsp; + AMI <br>&emsp; + EBS <br>&emsp; + ... <br> - Các cách remote SSH vào EC2 <br> - Tìm hiểu Elastic IP   <br>                  | 20/11/2025   | 20/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
-| 6   | - **Thực hành:** <br>&emsp; + Tạo EC2 instance <br>&emsp; + Kết nối SSH <br>&emsp; + Gắn EBS volume                                                                                         | 21/11/2025   | 21/11/2025      | <https://cloudjourney.awsstudygroup.com/> |
+---
 
+### Các công việc triển khai trong tuần này:
+
+| Thứ | Công việc                                                                                                                                                                 | Bắt đầu     | Hoàn thành  | Nguồn |
+| --- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------- | ----------- | ----- |
+| 2   | - Cấu hình Amplify project <br>&emsp; + `amplify init` <br>&emsp; + Kết nối frontend React/Vue/Angular <br>&emsp; + Tạo Amplify Auth (Cognito User Pool)                 | 17/11/2025  | 17/11/2025  | AWS Amplify Docs |
+| 3   | - Tích hợp API Lambda + Resend qua **Amplify API** <br>&emsp; + Tạo GraphQL/REST endpoint <br>&emsp; + Cấu hình authentication bằng Cognito JWT/API Key                   | 18/11/2025  | 18/11/2025  | Amplify Docs, Cognito Docs |
+| 4   | - Test frontend → Amplify API → Lambda → Resend <br>&emsp; + Đăng nhập Cognito thành công <br>&emsp; + Gửi email OTP/notification từ frontend                             | 19/11/2025  | 19/11/2025  | Project Docs |
+| 5   | - Triển khai CI/CD trên **Amplify Console** <br>&emsp; + Kết nối repo GitHub/GitLab/CodeCommit <br>&emsp; + Tự động build & deploy frontend + backend Lambda             | 20/11/2025  | 20/11/2025  | Amplify Console Docs |
+| 6   | - Test end-to-end pipeline <br>&emsp; + Push code → Amplify tự động deploy <br>&emsp; + Kiểm tra frontend hiển thị, API authentication & gửi email qua Resend            | 21/11/2025  | 21/11/2025  | CloudWatch Logs |
+
+---
 
 ### Kết quả đạt được tuần 11:
 
-* Hiểu AWS là gì và nắm được các nhóm dịch vụ cơ bản: 
-  * Compute
-  * Storage
-  * Networking 
-  * Database
-  * ...
+* Tích hợp **frontend với backend** qua **Amplify** hoàn chỉnh:
+  * Gọi API Lambda + Resend từ frontend
+  * Xác thực Cognito (login, JWT, API Key) hoạt động
+  * Flow gửi email OTP/verification/notification thành công
 
-* Đã tạo và cấu hình AWS Free Tier account thành công.
+* Triển khai **CI/CD tự động với Amplify Console**:
+  * Repo GitHub/GitLab/CodeCommit làm source
+  * Amplify tự động build và deploy frontend + backend
+  * Tự động update production khi push code
 
-* Làm quen với AWS Management Console và biết cách tìm, truy cập, sử dụng dịch vụ từ giao diện web.
+* Test toàn bộ workflow end-to-end:
+  **Frontend → Cognito Auth → Amplify API → Lambda → Resend → Email → Frontend hiển thị thông báo**
 
-* Cài đặt và cấu hình AWS CLI trên máy tính bao gồm:
-  * Access Key
-  * Secret Key
-  * Region mặc định
-  * ...
+* Hiểu rõ cách **tích hợp serverless full-stack với Amplify + Cognito + Lambda + Resend** và CI/CD.
 
-* Sử dụng AWS CLI để thực hiện các thao tác cơ bản như:
-
-  * Kiểm tra thông tin tài khoản & cấu hình
-  * Lấy danh sách region
-  * Xem dịch vụ EC2
-  * Tạo và quản lý key pair
-  * Kiểm tra thông tin dịch vụ đang chạy
-  * ...
-
-* Có khả năng kết nối giữa giao diện web và CLI để quản lý tài nguyên AWS song song.
-* ...
-
-
+* …
