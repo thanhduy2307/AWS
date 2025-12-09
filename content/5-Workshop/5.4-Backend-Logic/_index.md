@@ -1,20 +1,61 @@
 ---
-title : "Access S3 from on-premises"
-date: 2025-11-11
-weight : 4
-chapter : false
-pre : " <b> 5.4. </b> "
+title: "Backend-Logic
+weight: 4
+chapter: false
+pre: " <b> 5.4. </b> "
 ---
 
-#### Overview
+{{% notice info %}}
+🛡️ **Goal:** Build a Serverless Backend following a 4-step workflow: Create Function → Configure Role → Grant Database Permissions → Implement Logic (Connect to DB & Call Third-Party Email API).
+{{% /notice %}}
 
-+ In this section, you will create an Interface endpoint to access Amazon S3 from a simulated on-premises environment. The Interface endpoint will allow you to route to Amazon S3 over a VPN connection from your simulated on-premises environment.
+# Step 1: Initialize the Lambda Function
 
-+ Why using **Interface endpoint**: 
-    + Gateway endpoints only work with resources running in the VPC where they are created. Interface endpoints work with resources running in VPC, and also resources running in on-premises environments. Connectivty from your on-premises environment to the cloud can be provided by AWS Site-to-Site VPN or AWS Direct Connect.
-    + Interface endpoints allow you to connect to services powered by AWS PrivateLink. These services include some AWS services, services hosted by other AWS customers and partners in their own VPCs (referred to as PrivateLink Endpoint Services), and supported AWS Marketplace Partner services. For this workshop, we will focus on connecting to Amazon S3.
+First, we create a new Lambda function that will contain the processing logic.
 
-![Interface endpoint architecture](/images/5-Workshop/5.4-S3-onprem/diagram3.png)
+1. Go to **AWS Console** > **Lambda** > **Create function**.
+2. **Function name:** *(enter your function name)*.
+3. **Runtime:** Choose **Node.js 18.x** (or 20.x).
+4. **Architecture:** x86_64.
+5. Keep the remaining settings as default and click **Create function**.
 
+> **Illustration:**
+>
+> ![Screenshot: Lambda Function Initialization Screen](images/step1-create-lambda.png)  
+> *Figure 5.4.1: Creating the Backend processing Lambda function.*
 
+---
 
+# Step 2: Add Policies to the Lambda (Execution Role)
+
+When the function is created, AWS automatically generates a basic IAM Role.  
+We need to access this Role and add permissions for writing to the Database.
+
+1. In the Lambda function page, switch to the **Configuration** tab.
+2. Select **Permissions** on the left panel.
+3. Click the Role name under **Execution role** to open it in the IAM Console.
+
+> **Illustration:**
+>
+> ![Screenshot: Accessing Execution Role from Lambda](images/step2-access-role.png)  
+> *Figure 5.4.2: Accessing the IAM Role for permission configuration.*
+
+---
+
+# Step 3: Add Policies for Database Access
+
+Since we use a third-party Email service (called via a normal HTTP API), we **do not** need SES permissions.  
+We only need to grant Lambda permissions to work with **DynamoDB**.
+
+1. In the Role’s **Permissions** tab, click **Add permissions** > **Create inline policy**.
+2. Switch to the **JSON** mode.
+3. Click **Next**, name the policy `AuroraDB_Access_Policy`, and then click **Create policy**.
+4. Review your Permissions list to ensure the Role now has access to DynamoDB.
+
+---
+
+# Step 4: Write the Lambda Function Code
+
+Return to the Lambda Function interface and begin writing your Node.js code.
+
+Once completed, click **Deploy** to save and apply the changes.
