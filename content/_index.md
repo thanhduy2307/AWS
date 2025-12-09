@@ -31,7 +31,7 @@ chapter: false
 
 &emsp; **Internship Duration:** From 08/09/2025 to 12/12/2025
 
-![Aurora Time Platform Architecture](/AWS/images/2-Proposal/aws.jpg)
+![Ảnh đại diện của bạn](images\avartar.png)
 
 ### Report Content
 
