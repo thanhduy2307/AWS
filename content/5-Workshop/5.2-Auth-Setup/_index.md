@@ -1,5 +1,5 @@
 ---
-title: "System Architecture & Authentication Flow"
+title: "Configuring Google Cloud & Amazon Cognito"
 date: 2025-12-09
 weight: 1
 chapter: false
